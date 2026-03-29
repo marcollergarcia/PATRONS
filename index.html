@@ -713,7 +713,6 @@
   </header>
 
   <div class="container">
-    <div class="paginacio" id="paginacio-top"></div>
     <div class="editor-grid" id="grid"></div>
     <div class="paginacio" id="paginacio-bottom"></div>
   </div>
@@ -19616,7 +19615,7 @@
           </div>
           
           <div class="form-group">
-            <label>Autor</label>
+            <label>Autor/Col·lecció</label>
             <select onchange="actualitzar('${p.nom}', 'autor', this.value)">${buildSelectOpcions('autor', p.autor)}</select>
           </div>
           
@@ -19791,7 +19790,6 @@
       const slice = FILTRATS.slice(inici, fi);
       
       document.getElementById('grid').innerHTML = slice.map((p, i) => renderCard(p, inici + i)).join('');
-      renderPaginacio('paginacio-top');
       renderPaginacio('paginacio-bottom');
     }
     
