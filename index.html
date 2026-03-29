@@ -435,7 +435,7 @@
 
     .header-title-row h1 {
       font-family: 'Port Lligat Sans', sans-serif;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
       letter-spacing: 0.02em;
       color: #1d1d1f;
@@ -443,16 +443,16 @@
       line-height: 1.25;
     }
 
-    .header-title-row .subtitle-sep {
+    .header-title-row .header-subtitle {
+      display: block;
+      font-family: 'Port Lligat Sans', sans-serif;
+      font-size: 14px;
       font-weight: 400;
-      color: #b0b0b5;
-      margin: 0 6px;
-    }
-
-    .header-title-row .subtitle {
-      font-size: 15px;
-      font-weight: 400;
+      letter-spacing: 0.02em;
       color: #6e6e73;
+      margin: 4px auto 0;
+      line-height: 1.3;
+      max-width: 36em;
     }
 
     .header-controls-row {
@@ -462,36 +462,6 @@
       flex-wrap: wrap;
       justify-content: center;
       width: 100%;
-    }
-
-    .header-progress-row {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      width: 100%;
-      max-width: 560px;
-    }
-
-    .progress-bar-container {
-      width: 100%;
-      height: 6px;
-      background: #e5e5ea;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: #34c759;
-      border-radius: 3px;
-      transition: width 0.4s ease;
-    }
-
-    .progress-label {
-      font-size: 11px;
-      color: #86868b;
     }
 
     .header-sep {
@@ -607,14 +577,8 @@
     <div class="header-inner">
 
       <div class="header-title-row">
-        <h1>ARXIU DE PATRONS <span class="subtitle-sep">·</span> ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT</h1>
-      </div>
-
-      <div class="header-progress-row">
-        <div class="progress-bar-container">
-          <div class="progress-bar-fill" id="progressBar"></div>
-        </div>
-        <span class="progress-label" id="progressLabel">0 / 0 fitxes completes (0%)</span>
+        <h1>ARXIU DE PATRONS</h1>
+        <p class="header-subtitle">Associació de Puntaires d'Arenys de Munt</p>
       </div>
 
       <div class="header-controls-row">
@@ -635,6 +599,16 @@
             <div class="filter-options" id="filterOptions">
               <!-- Generat dinàmicament -->
             </div>
+          </div>
+        </div>
+
+        <div class="filter-dropdown">
+          <button class="filter-button" id="filterButton_estat" onclick="toggleDropdownEstat()">
+            <span id="filter-text_estat">Estat</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="filter-menu" id="filterMenu_estat">
+            <div class="filter-options" id="filterOptions_estat"></div>
           </div>
         </div>
 
@@ -718,7 +692,7 @@
   </div>
 
   <footer class="site-footer">
-    <p>© 2026 Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</p>
+    <p>© 2026 Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>) · Ajuntament d'Arenys de Munt · David Castañeda</p>
   </footer>
   
   <div class="save-status" id="saveStatus">✓ Guardat</div>
@@ -19432,6 +19406,8 @@
       if (p.motiu === undefined) p.motiu = '';
     });
     let FILTRATS = [...PATRONS];
+    /** 'TOTS' | 'COMPLETADES' | 'PENDENTS' — filtre per fitxaCompleta(p) */
+    let filtreEstat = 'TOTS';
     const PER_PAGINA = 20;
     let paginaActual = 1;
     let totalPagines = Math.ceil(FILTRATS.length / PER_PAGINA);
@@ -19570,11 +19546,21 @@
       });
     }
     
-    function actualitzarInfo() {
+    /** Percentatge global de fitxes completes al botó del filtre Estat */
+    function actualitzarTextEstatFiltre() {
       const completes = PATRONS.filter(p => fitxaCompleta(p)).length;
       const percentatge = PATRONS.length > 0 ? Math.round((completes / PATRONS.length) * 100) : 0;
-      document.getElementById('progressBar').style.width = percentatge + '%';
-      document.getElementById('progressLabel').textContent = completes + ' / ' + PATRONS.length + ' fitxes completes (' + percentatge + '%)';
+      const el = document.getElementById('filter-text_estat');
+      if (!el) return;
+      let base;
+      if (filtreEstat === 'TOTS') base = 'Estat';
+      else if (filtreEstat === 'COMPLETADES') base = 'Completades';
+      else base = 'Pendents';
+      el.textContent = base + ' (' + percentatge + '%)';
+    }
+
+    function actualitzarInfo() {
+      actualitzarTextEstatFiltre();
     }
     
     function renderCard(p, index) {
@@ -19630,8 +19616,7 @@
         patro[camp] = valor;
         marcarDataCompletadaSiCal(patro);
         guardarLocal();
-        actualitzarInfo();
-        renderitzar();
+        aplicarFiltres(false);
       }
     }
     
@@ -19771,8 +19756,7 @@
             });
 
             guardarLocal();
-            actualitzarInfo();
-            renderitzar();
+            aplicarFiltres();
             mostrarGuardat(`${importades} importades`);
           } catch (err) {
             alert('Error important CSV: ' + err.message);
@@ -19913,19 +19897,28 @@
       aplicarFiltres();
     }
 
-    function aplicarFiltres() {
+    /** @param {boolean} [resetPagina=true] — false quan es recalcula després d’editar una fitxa (no saltar a pàgina 1) */
+    function aplicarFiltres(resetPagina) {
+      if (resetPagina === undefined) resetPagina = true;
       FILTRATS = PATRONS.filter(p => {
         const grupOk = grupsSeleccionats.has(obtenirGrup(p.nom));
+        const estatOk = filtreEstat === 'TOTS'
+          || (filtreEstat === 'COMPLETADES' && fitxaCompleta(p))
+          || (filtreEstat === 'PENDENTS' && !fitxaCompleta(p));
         const campOk = (camp) => {
           const actiu = filtresCamps[camp].actiu;
           if (actiu === 'TOTS') return true;
           if (actiu === 'SENSE') return esSenseOMDesconegut(p[camp]);
           return p[camp] && p[camp].trim() === actiu;
         };
-        return grupOk && campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any') && campOk('autor');
+        return grupOk && estatOk && campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any') && campOk('autor');
       });
-      paginaActual = 1;
       totalPagines = Math.ceil(FILTRATS.length / PER_PAGINA);
+      if (resetPagina) {
+        paginaActual = 1;
+      } else if (paginaActual > totalPagines) {
+        paginaActual = Math.max(1, totalPagines);
+      }
       actualitzarInfo();
       renderitzar();
     }
@@ -20005,6 +19998,54 @@
         menu.classList.add('open');
         button.classList.add('open');
       }
+    }
+
+    function renderFiltreEstat() {
+      const nTot = PATRONS.length;
+      const nComp = PATRONS.filter(p => fitxaCompleta(p)).length;
+      const nPen = nTot - nComp;
+      const sel = filtreEstat;
+      document.getElementById('filterOptions_estat').innerHTML = `
+        <div class="filter-option" onclick="seleccionarFiltreEstat('TOTS')">
+          <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
+            <span>${sel === 'TOTS' ? '✓ ' : ''}Totes les fitxes</span>
+            <span class="count">${nTot}</span>
+          </label>
+        </div>
+        <div class="filter-option" onclick="seleccionarFiltreEstat('COMPLETADES')">
+          <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
+            <span>${sel === 'COMPLETADES' ? '✓ ' : ''}Completades</span>
+            <span class="count">${nComp}</span>
+          </label>
+        </div>
+        <div class="filter-option" onclick="seleccionarFiltreEstat('PENDENTS')">
+          <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
+            <span>${sel === 'PENDENTS' ? '✓ ' : ''}Pendents</span>
+            <span class="count">${nPen}</span>
+          </label>
+        </div>`;
+    }
+
+    function toggleDropdownEstat() {
+      const menu = document.getElementById('filterMenu_estat');
+      const button = document.getElementById('filterButton_estat');
+      const isOpen = menu.classList.contains('open');
+
+      document.querySelectorAll('.filter-menu').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('open'));
+
+      if (!isOpen) {
+        renderFiltreEstat();
+        menu.classList.add('open');
+        button.classList.add('open');
+      }
+    }
+
+    function seleccionarFiltreEstat(valor) {
+      filtreEstat = valor;
+      document.getElementById('filterMenu_estat').classList.remove('open');
+      document.getElementById('filterButton_estat').classList.remove('open');
+      aplicarFiltres();
     }
 
     function seleccionarFiltre(camp, valor) {
