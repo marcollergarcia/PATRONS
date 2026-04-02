@@ -692,7 +692,7 @@
   </div>
 
   <footer class="site-footer">
-    <p>© 2026 Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>) · Ajuntament d'Arenys de Munt · David Castañeda</p>
+    <p>© 2026 Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>) · Ajuntament d'Arenys de Munt · David Castañeda · Mª Dolors Garcia · Montse Casademunt</p>
   </footer>
   
   <div class="save-status" id="saveStatus">✓ Guardat</div>
@@ -19475,10 +19475,12 @@
      * Si es deixa buida, l'editor continua funcionant només amb localStorage.
      */
     const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw0tJEIVPUi0_8BDiEurUfS_8I_RFqLQzrpvh0qxEijKTUZIU3i-RnFp3ancbKFpA-YNw/exec';
+    const PENDING_SYNC_STORAGE_KEY = 'patrons-sync-pendents';
     let darrerSaveStatusTimer = null;
     let syncTimeoutId = null;
     let pendingSyncPayloads = {};
     let isBootstrappingRemote = false;
+    let isFlushingPendingSync = false;
 
     function escapeHtmlAttr(s) {
       return String(s)
@@ -19561,6 +19563,30 @@
       };
     }
 
+    function carregarPendentsSyncLocal() {
+      try {
+        const raw = localStorage.getItem(PENDING_SYNC_STORAGE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (err) {
+        console.error('No s’ha pogut llegir la cua persistent de sincronització:', err);
+        return {};
+      }
+    }
+
+    function guardarPendentsSyncLocal() {
+      try {
+        if (Object.keys(pendingSyncPayloads).length === 0) {
+          localStorage.removeItem(PENDING_SYNC_STORAGE_KEY);
+        } else {
+          localStorage.setItem(PENDING_SYNC_STORAGE_KEY, JSON.stringify(pendingSyncPayloads));
+        }
+      } catch (err) {
+        console.error('No s’ha pogut desar la cua persistent de sincronització:', err);
+      }
+    }
+
     function aplicarDadesPatro(patro, dades) {
       patro.tecnica = dades.tecnica || '';
       patro.autor = dades.autor || '';
@@ -19619,20 +19645,30 @@
     }
 
     async function flushSyncGoogleSheetsPendents() {
+      if (isFlushingPendingSync || isBootstrappingRemote || !teSyncGoogleSheetsConfigurada()) return;
+      isFlushingPendingSync = true;
       const payloads = Object.values(pendingSyncPayloads);
-      pendingSyncPayloads = {};
-      for (const payload of payloads) {
-        try {
-          await enviarPatroGoogleSheets(payload);
-        } catch (err) {
-          console.error('Error sincronitzant amb Google Sheets:', err);
+      try {
+        for (const payload of payloads) {
+          try {
+            await enviarPatroGoogleSheets(payload);
+            delete pendingSyncPayloads[payload.nom];
+            guardarPendentsSyncLocal();
+          } catch (err) {
+            console.error('Error sincronitzant amb Google Sheets:', err);
+            pendingSyncPayloads[payload.nom] = payload;
+            guardarPendentsSyncLocal();
+          }
         }
+      } finally {
+        isFlushingPendingSync = false;
       }
     }
 
     function programarSyncGoogleSheets(patro) {
-      if (isBootstrappingRemote || !teSyncGoogleSheetsConfigurada()) return;
       pendingSyncPayloads[patro.nom] = obtenirPayloadPatro(patro);
+      guardarPendentsSyncLocal();
+      if (!teSyncGoogleSheetsConfigurada()) return;
       clearTimeout(syncTimeoutId);
       syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 450);
     }
@@ -20186,31 +20222,48 @@
       }
     });
 
+    pendingSyncPayloads = carregarPendentsSyncLocal();
+    window.addEventListener('online', function () {
+      clearTimeout(syncTimeoutId);
+      syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 250);
+    });
+
     // Inicialitzar grups al carregar
-    (async function inicialitzarEditor() {
-      isBootstrappingRemote = true;
-      try {
-        await carregarDadesGoogleSheets();
-      } catch (err) {
-        console.error('No s’han pogut carregar les dades de Google Sheets:', err);
-      } finally {
-        isBootstrappingRemote = false;
-      }
-
-      // El localStorage manté prioritat sobre les dades compartides.
-      if (guardades) {
-        const dades = JSON.parse(guardades);
-        PATRONS.forEach((p) => {
-          if (dades[p.nom]) {
-            Object.assign(p, dades[p.nom]);
-          }
-        });
-      }
-
+    (function inicialitzarEditor() {
+      // Primer pintem immediatament amb dades locals per evitar la sensació de bloqueig.
       renderGrups();
       actualitzarTextFiltre();
       actualitzarInfo();
       renderitzar();
+
+      // Després sincronitzem amb Google Sheets en segon pla.
+      (async function sincronitzarDespresDelPrimerRender() {
+        isBootstrappingRemote = true;
+        try {
+          await carregarDadesGoogleSheets();
+
+          // El localStorage manté prioritat sobre les dades compartides.
+          if (guardades) {
+            const dades = JSON.parse(guardades);
+            PATRONS.forEach((p) => {
+              if (dades[p.nom]) {
+                Object.assign(p, dades[p.nom]);
+              }
+            });
+          }
+
+          actualitzarInfo();
+          renderitzar();
+        } catch (err) {
+          console.error('No s’han pogut carregar les dades de Google Sheets:', err);
+        } finally {
+          isBootstrappingRemote = false;
+          if (Object.keys(pendingSyncPayloads).length > 0) {
+            clearTimeout(syncTimeoutId);
+            syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 250);
+          }
+        }
+      })();
     })();
   </script>
 </body>
