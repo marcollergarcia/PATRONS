@@ -6,13 +6,13 @@
   <title>Editor de metadades - Patrons</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Miriam+Libre:wght@400..700&family=Overpass:ital,wght@0,100..900;1,100..900&family=Port+Lligat+Sans&family=Sofia+Sans+Semi+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Port+Lligat+Sans&display=swap" rel="stylesheet">
   
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: 'IBM Plex Sans Condensed', sans-serif;
+      font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-optical-sizing: auto;
       background: #ffffff;
       padding: 0;
@@ -173,7 +173,7 @@
       color: #1d1d1f;
       background: #ffffff;
       transition: all 0.2s ease;
-      font-family: 'IBM Plex Sans Condensed', sans-serif;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
       cursor: pointer;
     }
 
@@ -207,7 +207,7 @@
     }
     
     .paginacio button {
-      font-family: 'IBM Plex Sans Condensed', sans-serif;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
       font-optical-sizing: auto;
       padding: 6px 12px;
       min-width: 36px;
@@ -434,9 +434,9 @@
     }
 
     .header-title-row h1 {
-      font-family: 'Port Lligat Sans', sans-serif;
-      font-size: 20px;
-      font-weight: 600;
+      font-family: 'Port Lligat Sans';
+      font-size: 24px;
+      font-weight: 700;
       letter-spacing: 0.02em;
       color: #1d1d1f;
       margin: 0;
@@ -445,7 +445,7 @@
 
     .header-title-row .header-subtitle {
       display: block;
-      font-family: 'Port Lligat Sans', sans-serif;
+      font-family: 'Port Lligat Sans';
       font-size: 14px;
       font-weight: 400;
       letter-spacing: 0.02em;
@@ -549,16 +549,56 @@
     .site-footer {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 28px 20px 36px;
-      text-align: center;
-      font-size: 12px;
-      color: #86868b;
+      padding: 14px 20px 18px;
       border-top: 1px solid #d2d2d7;
-      line-height: 1.4;
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      color: #57534e;
     }
 
-    .site-footer p {
+    .site-footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .site-footer-col {
       margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .site-footer-col.left {
+      text-align: left;
+    }
+
+    .site-footer-col.right {
+      text-align: right;
+    }
+
+    .site-footer-col li {
+      margin: 0;
+    }
+
+    .site-footer-col li + li {
+      margin-top: 4px;
+    }
+
+    .site-footer-col .rol {
+      font-weight: 700;
+      color: #424245;
+    }
+
+    @media (max-width: 900px) {
+      .site-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .site-footer-col.right {
+        text-align: left;
+      }
     }
 
     .site-footer a {
@@ -577,8 +617,8 @@
     <div class="header-inner">
 
       <div class="header-title-row">
-        <h1>ARXIU DE PATRONS</h1>
-        <p class="header-subtitle">Associació de Puntaires d'Arenys de Munt</p>
+        <h1>ARXIU HISTÒRIC DE PATRONS</h1>
+        <p class="header-subtitle">ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT · AJUNTAMENT D'ARENYS DE MUNT</p>
       </div>
 
       <div class="header-controls-row">
@@ -609,6 +649,16 @@
           </button>
           <div class="filter-menu" id="filterMenu_estat">
             <div class="filter-options" id="filterOptions_estat"></div>
+          </div>
+        </div>
+
+        <div class="filter-dropdown">
+          <button class="filter-button" id="filterButton_rang" onclick="toggleDropdownRang()">
+            <span id="filter-text_rang">Grups</span>
+            <span class="arrow">▼</span>
+          </button>
+          <div class="filter-menu" id="filterMenu_rang">
+            <div class="filter-options" id="filterOptions_rang"></div>
           </div>
         </div>
 
@@ -692,7 +742,16 @@
   </div>
 
   <footer class="site-footer">
-    <p>© 2026 Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>) · Ajuntament d'Arenys de Munt · David Castañeda · Mª Dolors Garcia · Montse Casademunt</p>
+    <div class="site-footer-grid" aria-label="Crèdits del projecte">
+      <ul class="site-footer-col left">
+        <li>· <span class="rol">Conservació i documentació del fons:</span> Mª Dolors Garcia, Montse Casademunt</li>
+        <li>· <span class="rol">Digitalització de patrons:</span> David Castañeda</li>
+      </ul>
+      <ul class="site-footer-col right">
+        <li>· <span class="rol">Entrada de dades i metadades descriptives:</span> Paula Mateos, Martina Sansa, Carles Sansa, Nina</li>
+        <li>· <span class="rol">Desenvolupament de l’aplicació web i integració de dades:</span> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</li>
+      </ul>
+    </div>
   </footer>
   
   <div class="save-status" id="saveStatus">✓ Guardat</div>
@@ -19408,6 +19467,8 @@
     let FILTRATS = [...PATRONS];
     /** 'TOTS' | 'COMPLETADES' | 'PENDENTS' — filtre per fitxaCompleta(p) */
     let filtreEstat = 'TOTS';
+    /** 'TOTS' | '1-600' | '601-1200' | '1201-1800' | '1801-Fi' — ordre a PATRONS (fitxa 1 = índex 0) */
+    let filtreRangActiu = 'TOTS';
     const PER_PAGINA = 20;
     let paginaActual = 1;
     let totalPagines = Math.ceil(FILTRATS.length / PER_PAGINA);
@@ -19430,25 +19491,54 @@
     
     const grupsOrdenats = Object.keys(grups).sort();
     let grupsSeleccionats = new Set(grupsOrdenats);
+
+    function indexDinsRangFitxa(index0, codiRang) {
+      const i1 = index0 + 1;
+      if (codiRang === 'TOTS') return true;
+      if (codiRang === '1-600') return i1 >= 1 && i1 <= 600;
+      if (codiRang === '601-1200') return i1 >= 601 && i1 <= 1200;
+      if (codiRang === '1201-1800') return i1 >= 1201 && i1 <= 1800;
+      if (codiRang === '1801-Fi') return i1 >= 1801 && i1 <= PATRONS.length;
+      return true;
+    }
+
+    function comptaPatronsPerRang(codiRang) {
+      return PATRONS.reduce((n, _p, i) => n + (indexDinsRangFitxa(i, codiRang) ? 1 : 0), 0);
+    }
+
+    function etiquetaRangMostra(codi) {
+      if (codi === 'TOTS') return 'Totes les fitxes';
+      if (codi === '1-600') return 'Fitxes 1–600';
+      if (codi === '601-1200') return 'Fitxes 601–1200';
+      if (codi === '1201-1800') return 'Fitxes 1201–1800';
+      if (codi === '1801-Fi') return 'Fitxes 1801–' + PATRONS.length;
+      return 'Rang';
+    }
+
+    /** Comptador absolut + percentatge sobre el total de patrons (arrodonit). */
+    function formatComptaPercentatge(count) {
+      const total = PATRONS.length;
+      if (!total) return '0 (0%)';
+      const pct = Math.round((count / total) * 100);
+      return count + ' (' + pct + '%)';
+    }
+
     const filtresCamps = {
       tecnica:   { actiu: 'TOTS', titolBreu: 'Tècniques', etiqueta: 'Totes les tècniques', textBuit: 'Sense tècnica' },
       motiu:     { actiu: 'TOTS', titolBreu: 'Motius', etiqueta: 'Tots els motius', textBuit: 'Sense motiu' },
       mida:      { actiu: 'TOTS', titolBreu: 'Mides', etiqueta: 'Totes les mides', textBuit: 'Sense mida' },
-      any:       { actiu: 'TOTS', titolBreu: 'Anys', etiqueta: 'Tots els anys', textBuit: 'Sense any' },
+      any:       { actiu: 'TOTS', titolBreu: 'Anys', etiqueta: 'Tots els anys', textBuit: 'Sense any / Desconegut' },
       autor:     { actiu: 'TOTS', titolBreu: 'Autors', etiqueta: 'Tots els autors', textBuit: 'Sense autor' },
     };
 
     /** Llistes editables incrustades dins l'HTML */
     const DEFAULT_LLISTES = {
-      tecnica: ['', 'GUIPUR', 'RET-FI', 'GEOMÈTRIC', 'BLONDA', 'ENTRENATS-ENPUNTILLATS'],
+      tecnica: ['', 'GUIPUR', 'GUIPUR+EMPUNTILLATS', 'RET-FI', 'GEOMÈTRIC', 'BLONDA', 'ENTRENATS+ENPUNTILLATS'],
       motiu: [
       '',
-        'PUNTA TIRADA 1r NIVELL',
-        'PUNTA TIRADA 2n NIVELL',
-		    'PUNTA TIRADA 3r NIVELL',
+        'PUNTA TIRADA',
         'PUNTA TIRADA DE DRAP',
-        'MOCADOR 1r NIVELL',
-        'MOCADOR 2n NIVELL',
+        'MOCADOR',
         'APLICACIONS',
         'CANTONERES',
         'ENTREDÓS',
@@ -19462,8 +19552,12 @@
       mida: ['', '5 cm.', '10 cm.', '+10 cm.', 'Altre'],
       any: [
         '',
-        '1890–1899', '1900–1909', '1910–1919', '1920–1929', '1930–1939', '1940–1949', '1950–1959', '1960–1969',
-        '1970–1979', '1980–1989', '1990–1999', '2000–2009', '2010–2019', '2020–2029'
+        'Final s.XIX (1876–1899)',
+        'Inici s.XX (1900–1935)',
+        'Mitjà s.XX (1936–1975)',
+        'Final s.XX (1976–1999)',
+        'Inici s.XXI (2000–2029)',
+        'Sense any/Desconegut'
       ],
       autor: ['', '1', '2', '3', '4', '5'],
     };
@@ -19471,8 +19565,8 @@
     let LLISTES = DEFAULT_LLISTES;
 
     /**
-     * Enganxa aquí la URL /exec d'Apps Script.
-     * Si es deixa buida, l'editor continua funcionant només amb localStorage.
+     * Enganxa aquí la URL /exec d'Apps Script (font de dades principal).
+     * Si es deixa buida, les edicions només es mantenen a la memòria de la pestanya (no es desen al núvol).
      */
     const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw0tJEIVPUi0_8BDiEurUfS_8I_RFqLQzrpvh0qxEijKTUZIU3i-RnFp3ancbKFpA-YNw/exec';
     const PENDING_SYNC_STORAGE_KEY = 'patrons-sync-pendents';
@@ -19530,9 +19624,11 @@
         .replace(/>/g, '&gt;');
     }
 
-    function esSenseOMDesconegut(v) {
+    function esSenseOMDesconegut(v, camp) {
       const t = (v || '').trim();
-      return t === '';
+      if (t === '') return true;
+      if (camp === 'any' && t === 'Sense any/Desconegut') return true;
+      return false;
     }
 
     function buildSelectOpcions(camp, valorBrut) {
@@ -19544,7 +19640,7 @@
       return opcions.map(o => {
         const esc = escapeHtmlAttr(o);
         const sel = o === val ? ' selected' : '';
-        return `<option value="${esc}"${sel}>${esc}</option>`;
+        return `<option value="${esc}"${sel}>${escapeHtmlText(o)}</option>`;
       }).join('');
     }
 
@@ -19673,17 +19769,6 @@
       syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 450);
     }
 
-    // Fusionar dades del CSV amb localStorage (localStorage té preferència)
-    const guardades = localStorage.getItem('patrons-metadades');
-    if (guardades) {
-      const dades = JSON.parse(guardades);
-      PATRONS.forEach((p, i) => {
-        if (dades[p.nom]) {
-          Object.assign(p, dades[p.nom]);
-        }
-      });
-    }
-    
     /** Percentatge global de fitxes completes al botó del filtre Estat */
     function actualitzarTextEstatFiltre() {
       const completes = PATRONS.filter(p => fitxaCompleta(p)).length;
@@ -19752,28 +19837,10 @@
       if (patro) {
         patro[camp] = valor;
         actualitzarDataCompletadaSegonsEstat(patro);
-        guardarLocal();
+        mostrarGuardat();
         programarSyncGoogleSheets(patro);
         aplicarFiltres(false);
       }
-    }
-    
-    function guardarLocal() {
-      const dades = {};
-      PATRONS.forEach(p => {
-        if (p.tecnica || p.autor || p.any || p.mida || p.motiu || p.dataCompletada) {
-          dades[p.nom] = {
-            tecnica: p.tecnica,
-            motiu: p.motiu,
-            mida: p.mida,
-            any: p.any,
-            autor: p.autor,
-            dataCompletada: p.dataCompletada || ''
-          };
-        }
-      });
-      localStorage.setItem('patrons-metadades', JSON.stringify(dades));
-      mostrarGuardat();
     }
     
     function mostrarGuardat(missatge = '✓ Guardat') {
@@ -19895,7 +19962,6 @@
               }
             });
 
-            guardarLocal();
             aplicarFiltres();
             mostrarGuardat(`${importades} importades`);
           } catch (err) {
@@ -19962,9 +20028,6 @@
       document.getElementById('modal').classList.remove('actiu');
     }
     
-    // Desar automàticament cada 30 segons
-    setInterval(guardarLocal, 30000);
-    
     // Funcions de filtratge per grups
     function toggleDropdown() {
       const menu = document.getElementById('filterMenu');
@@ -19997,7 +20060,7 @@
             <input type="checkbox" id="grup_${grup}" ${checked} onchange="toggleGrup('${grup}')">
             <label for="grup_${grup}">
               <span>${grup}</span>
-              <span class="count">${count}</span>
+              <span class="count">${formatComptaPercentatge(count)}</span>
             </label>
           </div>
         `;
@@ -20037,10 +20100,50 @@
       aplicarFiltres();
     }
 
+    function renderFiltreRang() {
+      const container = document.getElementById('filterOptions_rang');
+      const codis = ['TOTS', '1-600', '601-1200', '1201-1800', '1801-Fi'];
+      container.innerHTML = codis.map(codi => {
+        const count = comptaPatronsPerRang(codi);
+        const lbl = etiquetaRangMostra(codi);
+        const escCodi = codi.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        const check = filtreRangActiu === codi ? '✓ ' : '';
+        return `
+          <div class="filter-option" onclick="seleccionarFiltreRang('${escCodi}')">
+            <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
+              <span>${check}${escapeHtmlText(lbl)}</span>
+              <span class="count">${formatComptaPercentatge(count)}</span>
+            </label>
+          </div>`;
+      }).join('');
+    }
+
+    function toggleDropdownRang() {
+      const menu = document.getElementById('filterMenu_rang');
+      const button = document.getElementById('filterButton_rang');
+      const isOpen = menu.classList.contains('open');
+      document.querySelectorAll('.filter-menu').forEach(m => m.classList.remove('open'));
+      document.querySelectorAll('.filter-button').forEach(b => b.classList.remove('open'));
+      if (!isOpen) {
+        renderFiltreRang();
+        menu.classList.add('open');
+        button.classList.add('open');
+      }
+    }
+
+    function seleccionarFiltreRang(valor) {
+      filtreRangActiu = valor;
+      document.getElementById('filter-text_rang').textContent = etiquetaRangMostra(valor);
+      document.getElementById('filterMenu_rang').classList.remove('open');
+      document.getElementById('filterButton_rang').classList.remove('open');
+      aplicarFiltres();
+    }
+
     /** @param {boolean} [resetPagina=true] — false quan es recalcula després d’editar una fitxa (no saltar a pàgina 1) */
     function aplicarFiltres(resetPagina) {
       if (resetPagina === undefined) resetPagina = true;
-      FILTRATS = PATRONS.filter(p => {
+      FILTRATS = PATRONS.filter((p, idx) => {
+        const rangOk = indexDinsRangFitxa(idx, filtreRangActiu);
         const grupOk = grupsSeleccionats.has(obtenirGrup(p.nom));
         const estatOk = filtreEstat === 'TOTS'
           || (filtreEstat === 'COMPLETADES' && fitxaCompleta(p))
@@ -20048,10 +20151,10 @@
         const campOk = (camp) => {
           const actiu = filtresCamps[camp].actiu;
           if (actiu === 'TOTS') return true;
-          if (actiu === 'SENSE') return esSenseOMDesconegut(p[camp]);
+          if (actiu === 'SENSE') return esSenseOMDesconegut(p[camp], camp);
           return p[camp] && p[camp].trim() === actiu;
         };
-        return grupOk && estatOk && campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any') && campOk('autor');
+        return rangOk && grupOk && estatOk && campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any') && campOk('autor');
       });
       totalPagines = Math.ceil(FILTRATS.length / PER_PAGINA);
       if (resetPagina) {
@@ -20086,7 +20189,7 @@
       const valors = new Set();
       let hiHaSense = false;
       PATRONS.forEach(p => {
-        if (!esSenseOMDesconegut(p[camp])) valors.add(p[camp].trim());
+        if (!esSenseOMDesconegut(p[camp], camp)) valors.add(p[camp].trim());
         else hiHaSense = true;
       });
       const valorsOrdenats = [...valors].sort();
@@ -20095,7 +20198,7 @@
         <div class="filter-option" onclick="seleccionarFiltre('${camp}','TOTS')">
           <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
             <span>${cfg.actiu === 'TOTS' ? '✓ ' : ''}${cfg.etiqueta}</span>
-            <span class="count">${PATRONS.length}</span>
+            <span class="count">${formatComptaPercentatge(PATRONS.length)}</span>
           </label>
         </div>`;
 
@@ -20106,18 +20209,18 @@
           <div class="filter-option" onclick="seleccionarFiltre('${camp}','${valEsc}')">
             <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
               <span>${cfg.actiu === val ? '✓ ' : ''}${val}</span>
-              <span class="count">${count}</span>
+              <span class="count">${formatComptaPercentatge(count)}</span>
             </label>
           </div>`;
       });
 
       if (hiHaSense) {
-        const count = PATRONS.filter(p => esSenseOMDesconegut(p[camp])).length;
+        const count = PATRONS.filter(p => esSenseOMDesconegut(p[camp], camp)).length;
         html += `
           <div class="filter-option" onclick="seleccionarFiltre('${camp}','SENSE')">
             <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
               <span>${cfg.actiu === 'SENSE' ? '✓ ' : ''}${cfg.textBuit}</span>
-              <span class="count">${count}</span>
+              <span class="count">${formatComptaPercentatge(count)}</span>
             </label>
           </div>`;
       }
@@ -20149,19 +20252,19 @@
         <div class="filter-option" onclick="seleccionarFiltreEstat('TOTS')">
           <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
             <span>${sel === 'TOTS' ? '✓ ' : ''}Totes les fitxes</span>
-            <span class="count">${nTot}</span>
+            <span class="count">${formatComptaPercentatge(nTot)}</span>
           </label>
         </div>
         <div class="filter-option" onclick="seleccionarFiltreEstat('COMPLETADES')">
           <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
             <span>${sel === 'COMPLETADES' ? '✓ ' : ''}Completades</span>
-            <span class="count">${nComp}</span>
+            <span class="count">${formatComptaPercentatge(nComp)}</span>
           </label>
         </div>
         <div class="filter-option" onclick="seleccionarFiltreEstat('PENDENTS')">
           <label style="cursor:pointer;font-size:12px;display:flex;justify-content:space-between;align-items:center;">
             <span>${sel === 'PENDENTS' ? '✓ ' : ''}Pendents</span>
-            <span class="count">${nPen}</span>
+            <span class="count">${formatComptaPercentatge(nPen)}</span>
           </label>
         </div>`;
     }
@@ -20223,6 +20326,10 @@
     });
 
     pendingSyncPayloads = carregarPendentsSyncLocal();
+    try {
+      localStorage.removeItem('patrons-metadades');
+    } catch (e) { /* ignore */ }
+
     window.addEventListener('online', function () {
       clearTimeout(syncTimeoutId);
       syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 250);
@@ -20230,7 +20337,7 @@
 
     // Inicialitzar grups al carregar
     (function inicialitzarEditor() {
-      // Primer pintem immediatament amb dades locals per evitar la sensació de bloqueig.
+      // Primer es renderitza amb l’array PATRONS embegut; després el GET de Google Sheets hi fusiona les metadades del full.
       renderGrups();
       actualitzarTextFiltre();
       actualitzarInfo();
@@ -20241,16 +20348,6 @@
         isBootstrappingRemote = true;
         try {
           await carregarDadesGoogleSheets();
-
-          // El localStorage manté prioritat sobre les dades compartides.
-          if (guardades) {
-            const dades = JSON.parse(guardades);
-            PATRONS.forEach((p) => {
-              if (dades[p.nom]) {
-                Object.assign(p, dades[p.nom]);
-              }
-            });
-          }
 
           actualitzarInfo();
           renderitzar();
