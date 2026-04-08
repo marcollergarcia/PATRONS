@@ -6,13 +6,47 @@
   <title>Editor de metadades - Patrons</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Port+Lligat+Sans&display=swap" rel="stylesheet">
-  
+  <!-- Fonts originals -->
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Port+Lligat+Sans&display=swap" rel="stylesheet">
+  <!-- Fonts addicionals -->
+  <link href="https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Overpass:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Farro:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Vollkorn+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Scope+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=SUSE:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inder&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kiwi+Maru&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Scope+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
   <style>
+    /* ─── Paràmetres de font ─────────────────────────────────────────────────
+       Per canviar la font del cos del document, modifica --font-body.
+       Per canviar la font dels títols i subtítols, modifica --font-heading.
+       Valors disponibles (entre cometes simples): 'Atkinson Hyperlegible',
+       'Zen Maru Gothic', 'Jura', 'Tilt Neon', 'Port Lligat Sans'
+    ────────────────────────────────────────────────────────────────────────── */
+    :root {
+      --font-body:    'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-heading: 'Vollkorn SC', sans-serif;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: 'Atkinson Hyperlegible', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: var(--font-body);
       font-optical-sizing: auto;
       background: #ffffff;
       padding: 0;
@@ -173,7 +207,7 @@
       color: #1d1d1f;
       background: #ffffff;
       transition: all 0.2s ease;
-      font-family: 'Atkinson Hyperlegible', sans-serif;
+      font-family: var(--font-body);
       cursor: pointer;
     }
 
@@ -200,14 +234,72 @@
     
     .paginacio {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .paginacio-controls {
+      display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
-      margin: 20px 0;
+      align-items: center;
+    }
+
+    .paginacio-go-row {
+      display: flex;
       flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      color: #6e6e73;
+    }
+
+    .paginacio-go-label {
+      margin: 0;
+      user-select: none;
+    }
+
+    .paginacio-go-input {
+      width: 4.25rem;
+      padding: 6px 8px;
+      border: 1px solid #d2d2d7;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      color: #1d1d1f;
+      text-align: center;
+    }
+
+    .paginacio-go-input:focus {
+      outline: none;
+      border-color: #000000;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .paginacio-go-btn {
+      font-family: var(--font-body);
+      padding: 6px 12px;
+      border: 1px solid #d2d2d7;
+      background: #fbfbfd;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1d1d1f;
+      transition: all 0.2s ease;
+    }
+
+    .paginacio-go-btn:hover {
+      background: #f5f5f7;
+      border-color: #000000;
     }
     
     .paginacio button {
-      font-family: 'Atkinson Hyperlegible', sans-serif;
+      font-family: var(--font-body);
       font-optical-sizing: auto;
       padding: 6px 12px;
       min-width: 36px;
@@ -277,7 +369,7 @@
       border: 1px solid #d2d2d7;
       border-radius: 8px;
       padding: 8px 16px;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -434,7 +526,7 @@
     }
 
     .header-title-row h1 {
-      font-family: 'Port Lligat Sans';
+      font-family: var(--font-heading);
       font-size: 24px;
       font-weight: 700;
       letter-spacing: 0.02em;
@@ -445,14 +537,14 @@
 
     .header-title-row .header-subtitle {
       display: block;
-      font-family: 'Port Lligat Sans';
-      font-size: 14px;
+      font-family: var(--font-heading);
+      font-size: 16px;
       font-weight: 400;
       letter-spacing: 0.02em;
       color: #6e6e73;
       margin: 4px auto 0;
       line-height: 1.3;
-      max-width: 36em;
+      max-width: 90em;
     }
 
     .header-controls-row {
@@ -551,7 +643,7 @@
       margin: 0 auto;
       padding: 14px 20px 18px;
       border-top: 1px solid #d2d2d7;
-      font-family: 'Atkinson Hyperlegible', sans-serif;
+      font-family: var(--font-body);
       color: #57534e;
     }
 
@@ -566,7 +658,7 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      font-size: 12px;
+      font-size: 12.5px;
       line-height: 1.45;
     }
 
@@ -613,6 +705,22 @@
   </style>
 </head>
 <body>
+
+  <div id="loading-screen" style="position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .35s ease">
+    <div style="position:fixed;top:0;left:0;right:0;height:3px;background:#e8e8ed;overflow:hidden">
+      <div style="height:100%;background:#1d1d1f;border-radius:0 2px 2px 0;animation:ldanim 1.4s ease-in-out infinite"></div>
+    </div>
+    <p style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;font-weight:600;color:#1d1d1f;letter-spacing:-.003em">Arxiu Històric de Patrons de Puntes de Coixí</p>
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:18px;height:18px;border:2px solid #e8e8ed;border-top-color:#1d1d1f;border-radius:50%;animation:spingir .7s linear infinite;flex-shrink:0"></div>
+      <span style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;color:#6e6e73">Carregant dades…</span>
+    </div>
+  </div>
+  <style>
+    @keyframes ldanim{0%{margin-left:0;width:0}30%{margin-left:0;width:60%}70%{margin-left:30%;width:65%}100%{margin-left:100%;width:0}}
+    @keyframes spingir{to{transform:rotate(360deg)}}
+  </style>
+
   <header class="site-header">
     <div class="header-inner">
 
@@ -644,7 +752,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_estat" onclick="toggleDropdownEstat()">
-            <span id="filter-text_estat">Estat</span>
+            <span id="filter-text_estat">ESTAT</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_estat">
@@ -654,7 +762,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_rang" onclick="toggleDropdownRang()">
-            <span id="filter-text_rang">Grups</span>
+            <span id="filter-text_rang">GRUP</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_rang">
@@ -664,7 +772,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_tecnica" onclick="toggleDropdownSimple('tecnica')">
-            <span id="filter-text_tecnica">Tècniques</span>
+            <span id="filter-text_tecnica">TÈCNICA</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_tecnica">
@@ -676,7 +784,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_motiu" onclick="toggleDropdownSimple('motiu')">
-            <span id="filter-text_motiu">Motius</span>
+            <span id="filter-text_motiu">MOTIU</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_motiu">
@@ -688,7 +796,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_mida" onclick="toggleDropdownSimple('mida')">
-            <span id="filter-text_mida">Mides</span>
+            <span id="filter-text_mida">MIDA</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_mida">
@@ -700,7 +808,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_any" onclick="toggleDropdownSimple('any')">
-            <span id="filter-text_any">Anys</span>
+            <span id="filter-text_any">ANY</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_any">
@@ -712,7 +820,7 @@
 
         <div class="filter-dropdown">
           <button class="filter-button" id="filterButton_autor" onclick="toggleDropdownSimple('autor')">
-            <span id="filter-text_autor">Autors</span>
+            <span id="filter-text_autor">AUTOR/COL·LECCIÓ</span>
             <span class="arrow">▼</span>
           </button>
           <div class="filter-menu" id="filterMenu_autor">
@@ -744,11 +852,11 @@
   <footer class="site-footer">
     <div class="site-footer-grid" aria-label="Crèdits del projecte">
       <ul class="site-footer-col left">
-        <li>· <span class="rol">Conservació i documentació del fons:</span> Mª Dolors Garcia, Montse Casademunt</li>
+        <li>· <span class="rol">Conservació i documentació del fons:</span> Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</li>
         <li>· <span class="rol">Digitalització de patrons:</span> David Castañeda</li>
       </ul>
       <ul class="site-footer-col right">
-        <li>· <span class="rol">Entrada de dades i metadades descriptives:</span> Paula Mateos, Martina Sansa, Carles Sansa, Nina</li>
+        <li>· <span class="rol">Base de dades i metadades descriptives:</span> Paula Mateos, Martina Sansa, Nina Ramon, Carles Sansa, Xènia Escalera</li>
         <li>· <span class="rol">Desenvolupament de l’aplicació web i integració de dades:</span> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</li>
       </ul>
     </div>
@@ -19537,8 +19645,7 @@
       motiu: [
       '',
         'PUNTA TIRADA',
-        'PUNTA TIRADA DE DRAP',
-        'MOCADOR',
+        'MOCADORS',
         'APLICACIONS',
         'CANTONERES',
         'ENTREDÓS',
@@ -19546,7 +19653,9 @@
         'TAPETS',
         'VENTALLS',
         'JOCS DE TAULA I LLIT',
-        'MATRIUS ANTIGUES (ESGLESIA, MANTELLINES)',
+        'MATRIUS ANTIGUES',
+        'MOTIUS REIGIOSOS',
+        'MANTELLINES',
         'PUNTS DE LLIBRE I VARIS'
       ],
       mida: ['', '5 cm.', '10 cm.', '+10 cm.', 'Altre'],
@@ -19776,7 +19885,7 @@
       const el = document.getElementById('filter-text_estat');
       if (!el) return;
       let base;
-      if (filtreEstat === 'TOTS') base = 'Estat';
+      if (filtreEstat === 'TOTS') base = 'ESTAT';
       else if (filtreEstat === 'COMPLETADES') base = 'Completades';
       else base = 'Pendents';
       el.textContent = base + ' (' + percentatge + '%)';
@@ -19804,27 +19913,27 @@
           <div class="nom-fitxer">${nomSenseExtensio}</div>
           
           <div class="form-group">
-            <label>Tècnica</label>
+            <label>TÈCNICA</label>
             <select onchange="actualitzar('${p.nom}', 'tecnica', this.value)">${buildSelectOpcions('tecnica', p.tecnica)}</select>
           </div>
           
           <div class="form-group">
-            <label>Motiu</label>
+            <label>MOTIU</label>
             <select onchange="actualitzar('${p.nom}', 'motiu', this.value)">${buildSelectOpcions('motiu', p.motiu)}</select>
           </div>
           
           <div class="form-group">
-            <label>Mida</label>
+            <label>MIDA</label>
             <select onchange="actualitzar('${p.nom}', 'mida', this.value)">${buildSelectOpcions('mida', p.mida)}</select>
           </div>
           
           <div class="form-group">
-            <label>Any</label>
+            <label>ANY</label>
             <select onchange="actualitzar('${p.nom}', 'any', this.value)">${buildSelectOpcions('any', p.any)}</select>
           </div>
           
           <div class="form-group">
-            <label>Autor/Col·lecció</label>
+            <label>AUTOR/COL·LECCIÓ</label>
             <select onchange="actualitzar('${p.nom}', 'autor', this.value)">${buildSelectOpcions('autor', p.autor)}</select>
           </div>
           
@@ -19985,6 +20094,12 @@
     
     function renderPaginacio(id) {
       const el = document.getElementById(id);
+      if (!el) return;
+
+      if (totalPagines < 1) {
+        el.innerHTML = '';
+        return;
+      }
 
       // Construir el conjunt de pàgines a mostrar: primera, finestra al voltant de l'actual, i última
       const paginesSet = new Set();
@@ -19995,18 +20110,26 @@
       }
       const llista = [...paginesSet].sort((a, b) => a - b);
 
-      let html = `<button onclick="anarPagina(${paginaActual - 1})" ${paginaActual === 1 ? 'disabled' : ''}>◀</button>`;
+      let html = '<div class="paginacio-controls">';
+      html += `<button type="button" onclick="anarPagina(${paginaActual - 1})" ${paginaActual === 1 ? 'disabled' : ''}>◀</button>`;
 
       let prev = 0;
       llista.forEach(p => {
         if (p - prev > 1) {
           html += `<span class="pag-ellipsis">…</span>`;
         }
-        html += `<button class="${p === paginaActual ? 'actiu' : ''}" onclick="anarPagina(${p})">${p}</button>`;
+        html += `<button type="button" class="${p === paginaActual ? 'actiu' : ''}" onclick="anarPagina(${p})">${p}</button>`;
         prev = p;
       });
 
-      html += `<button onclick="anarPagina(${paginaActual + 1})" ${paginaActual === totalPagines ? 'disabled' : ''}>▶</button>`;
+      html += `<button type="button" onclick="anarPagina(${paginaActual + 1})" ${paginaActual === totalPagines ? 'disabled' : ''}>▶</button>`;
+      html += '</div>';
+
+      html += '<div class="paginacio-go-row">';
+      html += '<label class="paginacio-go-label" for="paginacio-go-input">Anar a la pàgina</label>';
+      html += `<input type="number" id="paginacio-go-input" class="paginacio-go-input" min="1" max="${totalPagines}" value="${paginaActual}" inputmode="numeric" aria-label="Número de pàgina" onkeydown="if(event.key==='Enter'){event.preventDefault();anarPaginaDesFormulari();}">`;
+      html += '<button type="button" class="paginacio-go-btn" onclick="anarPaginaDesFormulari()">Vés-hi</button>';
+      html += '</div>';
 
       el.innerHTML = html;
     }
@@ -20017,6 +20140,15 @@
         renderitzar();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
+    }
+
+    function anarPaginaDesFormulari() {
+      const inp = document.getElementById('paginacio-go-input');
+      if (!inp || totalPagines < 1) return;
+      let n = parseInt(String(inp.value).trim(), 10);
+      if (Number.isNaN(n)) return;
+      n = Math.max(1, Math.min(totalPagines, n));
+      anarPagina(n);
     }
     
     function mostrarModal(nom) {
@@ -20355,6 +20487,12 @@
           console.error('No s’han pogut carregar les dades de Google Sheets:', err);
         } finally {
           isBootstrappingRemote = false;
+          const ls = document.getElementById('loading-screen');
+          if (ls) {
+            ls.style.opacity = '0';
+            ls.style.pointerEvents = 'none';
+            setTimeout(() => ls.remove(), 400);
+          }
           if (Object.keys(pendingSyncPayloads).length > 0) {
             clearTimeout(syncTimeoutId);
             syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 250);
