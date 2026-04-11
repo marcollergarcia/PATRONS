@@ -19641,7 +19641,7 @@
 
     /** Llistes editables incrustades dins l'HTML */
     const DEFAULT_LLISTES = {
-      tecnica: ['', 'GUIPUR', 'GUIPUR+EMPUNTILLATS', 'RET-FI', 'GEOMÈTRIC', 'BLONDA', 'ENTRENATS+ENPUNTILLATS'],
+      tecnica: ['', 'GUIPUR', 'GUIPUR+EMPUNTILLATS', 'RET-FI', 'GEOMÈTRIC', 'BLONDA', 'BLONDA+GUIPUR', 'BLONDA+EMPUNTILLATS', 'BLONDA+GUIPUR+EMPUNTILLATS', 'ENTRENATS+ENPUNTILLATS', 'ENPUNTILLATS'],
       motiu: [
       '',
         'PUNTA TIRADA',
@@ -19658,7 +19658,7 @@
         'MANTELLINES',
         'PUNTS DE LLIBRE I VARIS'
       ],
-      mida: ['', '5 cm.', '10 cm.', '+10 cm.', 'Altre'],
+      mida: ['', '5 cm.', '7 cm.', '10 cm.', '+10 cm.', 'Altre'],
       any: [
         '',
         'Final s.XIX (1876–1899)',
@@ -19668,7 +19668,7 @@
         'Inici s.XXI (2000–2029)',
         'Sense any/Desconegut'
       ],
-      autor: ['', '1', '2', '3', '4', '5'],
+      autor: ['', 'VIÑALS', 'MARGARIDA BADIA', 'TONI CASANOVES', '4', '5'],
     };
 
     let LLISTES = DEFAULT_LLISTES;
@@ -19768,6 +19768,11 @@
       };
     }
 
+    /** Per evitar esborrar la cua si l’usuari ha canviat dades mentre el POST encara volava */
+    function payloadsPatroIguals(a, b) {
+      return JSON.stringify(a) === JSON.stringify(b);
+    }
+
     function carregarPendentsSyncLocal() {
       try {
         const raw = localStorage.getItem(PENDING_SYNC_STORAGE_KEY);
@@ -19852,21 +19857,34 @@
     async function flushSyncGoogleSheetsPendents() {
       if (isFlushingPendingSync || isBootstrappingRemote || !teSyncGoogleSheetsConfigurada()) return;
       isFlushingPendingSync = true;
-      const payloads = Object.values(pendingSyncPayloads);
+      const noms = Object.keys(pendingSyncPayloads);
       try {
-        for (const payload of payloads) {
+        for (let i = 0; i < noms.length; i++) {
+          const nom = noms[i];
+          const payload = pendingSyncPayloads[nom];
+          if (!payload) continue;
           try {
             await enviarPatroGoogleSheets(payload);
-            delete pendingSyncPayloads[payload.nom];
+            const actual = pendingSyncPayloads[nom];
+            if (actual && payloadsPatroIguals(actual, payload)) {
+              delete pendingSyncPayloads[nom];
+            }
             guardarPendentsSyncLocal();
           } catch (err) {
             console.error('Error sincronitzant amb Google Sheets:', err);
-            pendingSyncPayloads[payload.nom] = payload;
+            const actual = pendingSyncPayloads[nom];
+            if (!actual || payloadsPatroIguals(actual, payload)) {
+              pendingSyncPayloads[nom] = payload;
+            }
             guardarPendentsSyncLocal();
           }
         }
       } finally {
         isFlushingPendingSync = false;
+        if (Object.keys(pendingSyncPayloads).length > 0 && teSyncGoogleSheetsConfigurada()) {
+          clearTimeout(syncTimeoutId);
+          syncTimeoutId = setTimeout(flushSyncGoogleSheetsPendents, 250);
+        }
       }
     }
 
