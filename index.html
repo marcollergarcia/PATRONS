@@ -380,6 +380,9 @@
     // ── Config ──────────────────────────────────────────────────────────────
     const GOOGLE_SHEETS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbw0tJEIVPUi0_8BDiEurUfS_8I_RFqLQzrpvh0qxEijKTUZIU3i-RnFp3ancbKFpA-YNw/exec';
     const PER_PAGINA = 36; /* 3 × 12 */
+    /** GitHub limita ~1000 fitxers per carpeta: 1–1000 a webp/, 1001–2000 a webp/1/, 2001–3000 a webp/2/, … */
+    const WEBP_MAX_PER_CARPETA = 1000;
+    const WEBP_BASE = 'webp';
 
     // ── Estat ────────────────────────────────────────────────────────────────
     let FILTRATS = PATRONS.slice();
@@ -406,6 +409,16 @@
 
     function escHtml(s) {
       return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    /** Ruta relativa del .webp segons el número inicial del nom (ex. 01001_… → webp/1/01001_….webp). */
+    function rutaWebp(nom) {
+      const m = /^(\d+)_/.exec(String(nom || '').trim());
+      const n = m ? parseInt(m[1], 10) : NaN;
+      if (!Number.isFinite(n) || n < 1) return WEBP_BASE + '/' + nom;
+      const slot = Math.floor((n - 1) / WEBP_MAX_PER_CARPETA);
+      if (slot === 0) return WEBP_BASE + '/' + nom;
+      return WEBP_BASE + '/' + slot + '/' + nom;
     }
 
     function formatCompta(count) {
@@ -435,7 +448,7 @@
       }
       return `<div class="card${teDades ? ' amb-dades' : ''}" onclick="mostrarModal('${escHtml(p.nom)}')">
         <div class="card-thumb-wrap">
-          <img src="webp/${escHtml(p.nom)}" alt="${escHtml(nomSenseExt)}" loading="lazy">
+          <img src="${escHtml(rutaWebp(p.nom))}" alt="${escHtml(nomSenseExt)}" loading="lazy">
         </div>
         <div class="card-peu">
           <div class="card-num">${escHtml(nomSenseExt)}</div>
@@ -507,7 +520,7 @@
     // ── Modal ────────────────────────────────────────────────────────────────
     function mostrarModal(nom) {
       const p = PATRONS.find(x => x.nom === nom);
-      document.getElementById('modalImg').src = 'webp/' + nom;
+      document.getElementById('modalImg').src = rutaWebp(nom);
       const peu = document.getElementById('modalPeu');
       if (p) {
         const parts = captionPatro(p);
