@@ -2,6 +2,8 @@
 
 Aplicació web del **Catàleg de Patrons de Puntes de Coixí**, que dona accés a l’**Arxiu Històric de Patrons de Puntes de Coixí** custodiat per l’[**Associació de Puntaires d’Arenys de Munt (APAM)**](https://marcollergarcia.github.io/PATRONS/), amb el suport de l’**Ajuntament d’Arenys de Munt** en la digitalització del fons.
 
+Aquest arxiu reuneix més de 2.300 patrons de puntes de coixí i és un fons viu de memòria tèxtil, preservat i obert a la consulta pública.”
+
 ## Què és aquest projecte
 
 Aquest repositori conté el desenvolupament de la interfície web i la integració de les dades del catàleg: imatges dels patrons i **metadades descriptives** (tècnica, motiu, mida, any, autor o col·lecció, etc.) que permeten **explorar, filtrar i consultar** un fons patrimonial de puntes de coixí de manera estructurada.
