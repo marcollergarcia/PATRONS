@@ -42,7 +42,7 @@
       letter-spacing: 0.02em; color: #1d1d1f; margin: 0; line-height: 1.25;
     }
     .header-title-row .header-subtitle {
-      display: block; font-family: var(--font-heading); font-size: 13px;
+      display: block; font-family: var(--font-heading); font-size: 14px;
       font-weight: 400; letter-spacing: 0.02em; color: #6e6e73;
       margin: 3px auto 0; line-height: 1.3;
     }
@@ -53,9 +53,30 @@
     .header-filters {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
     }
+    .header-links {
+      position: absolute;
+      top: 10px;
+      right: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .header-link-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 12px;
+      color: #86868b;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    .header-link-btn:hover { color: #1d1d1f; text-decoration: underline; cursor: pointer; }
 
     /* ── Filtres ── */
     .filter-dropdown { position: relative; display: inline-flex; }
+    /* Oculta la UI sense treure el DOM ni la lògica JS (revertir: treure la classe als divs). */
+    .filter-dropdown.filter-ocult { display: none !important; }
     .filter-button {
       background: #ffffff; border: 1px solid #d2d2d7; border-radius: 8px;
       padding: 7px 14px; font-size: 12px; cursor: pointer;
@@ -85,6 +106,48 @@
     }
     .filter-option .count { color: #86868b; font-size: 11px; margin-left: 8px; }
 
+    /* ── Carrousel aleatori (mínim codi) ── */
+    .hero-carousel { margin: 6px 0 12px; }
+    .carousel-track-wrap {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0 8px;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      scrollbar-width: none;
+    }
+    .carousel-track-wrap::-webkit-scrollbar { display: none; }
+    .carousel-track-wrap.is-dragging { cursor: grabbing; }
+    .carousel-track {
+      display: flex;
+      width: max-content;
+      gap: 8px;
+    }
+    .carousel-item {
+      display: block;
+      width: 130px;
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: inherit;
+    }
+    .carousel-item img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #e5e5ea;
+      display: block;
+      background: #fff;
+    }
+    .carousel-item .mini-caption {
+      margin-top: 4px;
+      font-size: 10px;
+      color: #6e6e73;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     /* ── Graella: 3 patrons per fila; paginació 12 files (36 per pàgina) ── */
     .catalog-grid {
       display: grid;
@@ -136,7 +199,7 @@
       line-height: 1.25;
     }
     .card-caption {
-      font-size: 10px; color: #1d1d1f; line-height: 1.35;
+      font-size: 11px; color: #1d1d1f; line-height: 1.35;
       font-weight: 400;
     }
     .card-caption .cap-buit {
@@ -196,6 +259,14 @@
       max-width: 1600px; margin: 0 auto; padding: 14px 20px 18px;
       border-top: 1px solid #d2d2d7; font-family: var(--font-body); color: #57534e;
     }
+    .site-footer-heading {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #424245;
+    }
     .site-footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
     .site-footer-col { margin: 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 1.45; }
     .site-footer-col.left { text-align: left; }
@@ -228,7 +299,7 @@
       box-shadow: 0 12px 40px rgba(0,0,0,0.18);
     }
     .legal-modal-panel h2 {
-      font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700;
+      font-family: var(--font-body); font-size: 1.05rem; font-weight: 700;
       letter-spacing: 0.02em; color: #1d1d1f; padding: 16px 44px 8px 18px;
       flex-shrink: 0; border-bottom: 1px solid #e5e5ea;
     }
@@ -237,6 +308,17 @@
       color: #3d3d3d;
     }
     .legal-modal-body p + p { margin-top: 0.85em; }
+    .legal-modal-body h3 {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #1d1d1f;
+    }
+    .legal-modal-body ul {
+      margin: 0.45rem 0 0.35rem 1.1rem;
+      padding: 0;
+    }
+    .legal-modal-body li + li { margin-top: 0.4rem; }
+    .legal-modal-body a { color: #2c5f7c; text-decoration: underline; }
     .legal-modal-close {
       position: absolute; top: 8px; right: 10px; width: 36px; height: 36px;
       border: none; border-radius: 8px; background: transparent; cursor: pointer;
@@ -277,7 +359,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-title-row">
-        <h1>ARXIU HISTÒRIC DE PATRONS</h1>
+        <h1>ARXIU HISTÒRIC DE PATRONS DE PUNTES DE COIXÍ</h1>
         <span class="header-subtitle">ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT · AJUNTAMENT D'ARENYS DE MUNT</span>
       </div>
       <div class="header-controls-row">
@@ -294,14 +376,14 @@
 
           <div class="filter-dropdown">
             <button class="filter-button" id="filterButton_motiu" onclick="toggleDD('motiu')">
-              <span id="filter-text_motiu">MOTIU</span><span class="arrow">▼</span>
+              <span id="filter-text_motiu">CATEGORIA</span><span class="arrow">▼</span>
             </button>
             <div class="filter-menu" id="filterMenu_motiu">
               <div id="filterOptions_motiu"></div>
             </div>
           </div>
 
-          <div class="filter-dropdown">
+          <div class="filter-dropdown filter-ocult">
             <button class="filter-button" id="filterButton_mida" onclick="toggleDD('mida')">
               <span id="filter-text_mida">MIDA</span><span class="arrow">▼</span>
             </button>
@@ -310,7 +392,7 @@
             </div>
           </div>
 
-          <div class="filter-dropdown">
+          <div class="filter-dropdown filter-ocult">
             <button class="filter-button" id="filterButton_any" onclick="toggleDD('any')">
               <span id="filter-text_any">ANY</span><span class="arrow">▼</span>
             </button>
@@ -331,9 +413,18 @@
         </div>
       </div>
     </div>
+    <div class="header-links">
+      <button type="button" class="header-link-btn" id="about-open-btn" onclick="obrirModalArxiu(event)">Sobre l'Arxiu</button>
+      <button type="button" class="header-link-btn" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+    </div>
   </header>
 
   <div class="container">
+    <section class="hero-carousel" aria-label="Carrousel aleatori de patrons">
+      <div class="carousel-track-wrap">
+        <div class="carousel-track" id="carouselTrack"></div>
+      </div>
+    </section>
     <div class="catalog-grid" id="grid"></div>
     <div class="paginacio" id="paginacio"></div>
   </div>
@@ -349,11 +440,7 @@
         <li>· <span class="rol">Desenvolupament de l'aplicació web i integració de dades:</span> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</li>
       </ul>
     </div>
-    <p class="site-footer-legal">
-      Fons patrimonial de l’Associació de Puntaires d’Arenys de Munt (APAM), amb suport de l’Ajuntament d’Arenys de Munt en la digitalització.
-      Consulta pública amb finalitats de promoció de les puntes de coixí i de difusió del seu valor històric i cultural.
-      <button type="button" class="legal-trigger" id="legal-open-btn" onclick="obrirModalDrets(event)">Drets d’ús i citació</button>
-    </p>
+    <p class="site-footer-legal"></p>
   </footer>
 
   <div class="modal" id="modal" onclick="tancarModal()">
@@ -361,15 +448,35 @@
     <div class="modal-peu" id="modalPeu"></div>
   </div>
 
+  <div class="legal-modal" id="about-modal" role="dialog" aria-modal="true" aria-labelledby="about-modal-title" onclick="tancarModalArxiuDesDeFons(event)">
+    <div class="legal-modal-panel" onclick="event.stopPropagation()">
+      <button type="button" class="legal-modal-close" onclick="tancarModalArxiu()" aria-label="Tancar">×</button>
+      <h2 id="about-modal-title">Sobre l'Arxiu</h2>
+      <div class="legal-modal-body">
+        <p>Aplicació web del <strong>Catàleg de Patrons de Puntes de Coixí</strong>, que dona accés a l’<strong>Arxiu Històric de Patrons de Puntes de Coixí</strong> custodiat per l’<a href="https://www.arenysdemunt.cat/ciutadania/737-entitats" target="_blank" rel="noopener noreferrer"><strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></a>, amb el suport de l’<strong>Ajuntament d’Arenys de Munt</strong> en la digitalització del fons.</p>
+        <p>Aquest arxiu reuneix més de 2.300 patrons de puntes de coixí, i representa un fons viu de la memòria, la cultura i la identitat tèxtil, preservada i oberta a la consulta pública.</p>
+
+        <h3>Què és aquest projecte</h3>
+        <p>Aquesta aplicació conté el desenvolupament de la interfície web i la integració de les dades del catàleg: imatges dels patrons i <strong>metadades descriptives</strong> (tècnica, categoria, any, autor/col·lecció i mida) que permeten <strong>explorar, filtrar i consultar</strong> un fons patrimonial de puntes de coixí de manera estructurada.</p>
+        <p>Ofereix <strong>consulta pública</strong> amb la finalitat de <strong>promoure</strong> les puntes de coixí i de <strong>difondre</strong> el seu valor <strong>històric i cultural</strong>, posant el patrimoni documental al servei de la recerca, l’ensenyament i el públic general.</p>
+
+        <h3>Per què és important</h3>
+        <ul>
+          <li><strong>Preservació i visibilitat</strong>: posa en valor un arxiu de patrons que és part del patrimoni immaterial i documental vinculat a la punta de coixí.</li>
+          <li><strong>Accés estructurat</strong>: les metadades converteixen una col·lecció en un <strong>recurs consultable i citable</strong> per a estudiants, investigadors, puntaires i entitats culturals.</li>
+          <li><strong>Model de col·laboració</strong>: exemplifica la cooperació entre <strong>associació cultural</strong>, <strong>administració local</strong> i <strong>equip tècnic</strong> (digitalització, base de dades i aplicació web) per fer accessible un fons amb criteris de qualitat.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <div class="legal-modal" id="legal-modal" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title" onclick="tancarModalDretsDesDeFons(event)">
     <div class="legal-modal-panel" onclick="event.stopPropagation()">
       <button type="button" class="legal-modal-close" onclick="tancarModalDrets()" aria-label="Tancar">×</button>
-      <h2 id="legal-modal-title">Drets d’ús i citació</h2>
+      <h2 id="legal-modal-title">Reconeixements i autoria</h2>
       <div class="legal-modal-body">
-        <p>El material d’aquest catàleg (imatges i metadades) forma part de l’Arxiu Històric de Patrons de Puntes de Coixí custodiat per l’<strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong>. La <strong>digitalització</strong> s’ha dut a terme amb el suport de l’<strong>Ajuntament d’Arenys de Munt</strong>.</p>
-        <p>Aquesta pàgina ofereix una <strong>consulta pública</strong> amb  finalitats de promoció de les puntes de coixí i de difusió del seu valor històric i cultural.</p>
-        <p>En qualsevol reutilització (treballs de recerca, escolars, articles, xarxes socials, exposicions, etc.) es demana <strong>citació clara de la font</strong>: «Arxiu Històric de Patrons de Puntes de Coixí — APAM / Ajuntament d’Arenys de Munt» i, si escau, l’identificador del patró que es mostra al catàleg.</p>
-        <p>Per a <strong>ús comercial</strong>, publicacions de gran difusió, productes derivats o qualsevol projecte que vagi més enllà de la consulta personal, cal <strong>demanar autorització prèvia</strong> a l’Associació de Puntaires d’Arenys de Munt.</p>
+        <p>Fons patrimonial de l’Associació de Puntaires d’Arenys de Munt (APAM), amb suport de l’Ajuntament d’Arenys de Munt en la digitalització. Consulta pública amb finalitats de promoció de les puntes de coixí i de difusió del seu valor històric i cultural.</p>
+        <p>Sobre l’arxiu i el seu ús: El material (imatges i metadades) és propietat de l’entitat custodiadora; la reutilització ha de citar la font: <strong>«Arxiu Històric de Patrons de Puntes de Coixí — APAM / Ajuntament d’Arenys de Munt»</strong> i, si escau, l’identificador del patró. Per a <strong>ús comercial</strong> o projectes que vagin més enllà de la consulta personal, cal <strong>contactar l’APAM</strong> per autorització prèvia.</p>
         <p>El fet que els continguts es puguin veure o copiar amb els mitjans habituals del navegador <strong>no significa</strong> que se’n permeti un ús sense respectar aquestes condicions i la normativa vigent en matèria de propietat intel·lectual i drets d’imatge.</p>
       </div>
     </div>
@@ -391,7 +498,7 @@
 
     const filtresCamps = {
       tecnica: { actiu: 'TOTS', titolBreu: 'TÈCNICA',       etiqueta: 'Totes les tècniques',     textBuit: 'Sense tècnica' },
-      motiu:   { actiu: 'TOTS', titolBreu: 'MOTIU',         etiqueta: 'Tots els motius',          textBuit: 'Sense motiu' },
+      motiu:   { actiu: 'TOTS', titolBreu: 'MOTIU',         etiqueta: 'Totes les categories',          textBuit: 'Sense categoria' },
       mida:    { actiu: 'TOTS', titolBreu: 'MIDA',          etiqueta: 'Totes les mides',          textBuit: 'Sense mida' },
       any:     { actiu: 'TOTS', titolBreu: 'ANY',           etiqueta: 'Tots els anys',            textBuit: 'Sense any / Desconegut' },
       autor:   { actiu: 'TOTS', titolBreu: 'AUTOR/COL·LECCIÓ', etiqueta: 'Tots els autors',       textBuit: 'Sense autor' },
@@ -426,6 +533,111 @@
       if (!total) return '0';
       const pct = Math.round((count / total) * 100);
       return count + ' (' + pct + '%)';
+    }
+
+    // ── Carrousel aleatori (mínim codi) ─────────────────────────────────────
+    function barreja(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+
+    const CAROUSEL_STATE = {
+      timer: null,
+      wrap: null,
+      isHover: false,
+      isDragging: false,
+      dragMoved: false,
+      dragStartX: 0,
+      dragStartScroll: 0,
+      blockClickUntil: 0
+    };
+
+    function renderCarouselAleatori() {
+      const track = document.getElementById('carouselTrack');
+      if (!track) return;
+      const base = barreja(PATRONS).slice(0, 24);
+      if (!base.length) { track.innerHTML = ''; return; }
+      const doble = base.concat(base);
+      track.innerHTML = doble.map(function (p) {
+        const nomSenseExt = (p.nom || '').replace(/\.webp$/i, '');
+        return '<a class="carousel-item" href="javascript:void(0)" onclick="return onCarouselItemClick(event, \'' + escHtml(p.nom).replace(/'/g, '&#39;') + '\')">' +
+          '<img src="' + escHtml(rutaWebp(p.nom)) + '" alt="' + escHtml(nomSenseExt) + '" loading="lazy">' +
+          '<div class="mini-caption">' + escHtml(nomSenseExt) + '</div>' +
+        '</a>';
+      }).join('');
+    }
+
+    function onCarouselItemClick(ev, nom) {
+      const ara = Date.now();
+      if (CAROUSEL_STATE.isDragging || CAROUSEL_STATE.dragMoved || ara < CAROUSEL_STATE.blockClickUntil) {
+        if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+        return false;
+      }
+      mostrarModal(nom);
+      return false;
+    }
+
+    function arrencarAutoCarousel() {
+      if (!CAROUSEL_STATE.wrap) return;
+      if (CAROUSEL_STATE.timer) clearInterval(CAROUSEL_STATE.timer);
+      const wrap = CAROUSEL_STATE.wrap;
+      CAROUSEL_STATE.timer = setInterval(function () {
+        const maxScroll = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+        if (maxScroll > 1 && !CAROUSEL_STATE.isHover && !CAROUSEL_STATE.isDragging) {
+          wrap.scrollLeft += 1;
+          if (wrap.scrollLeft >= maxScroll - 1) wrap.scrollLeft = 0;
+        }
+      }, 16);
+    }
+
+    function activarDragCarousel() {
+      const wrap = document.querySelector('.carousel-track-wrap');
+      if (!wrap) return;
+      CAROUSEL_STATE.wrap = wrap;
+      const start = function (clientX) {
+        CAROUSEL_STATE.isDragging = true;
+        CAROUSEL_STATE.dragMoved = false;
+        CAROUSEL_STATE.dragStartX = clientX;
+        CAROUSEL_STATE.dragStartScroll = wrap.scrollLeft;
+        wrap.classList.add('is-dragging');
+      };
+      const move = function (clientX) {
+        if (!CAROUSEL_STATE.isDragging) return;
+        const dx = clientX - CAROUSEL_STATE.dragStartX;
+        if (Math.abs(dx) > 6) CAROUSEL_STATE.dragMoved = true;
+        wrap.scrollLeft = CAROUSEL_STATE.dragStartScroll - dx;
+      };
+      const end = function () {
+        if (CAROUSEL_STATE.isDragging && CAROUSEL_STATE.dragMoved) {
+          CAROUSEL_STATE.blockClickUntil = Date.now() + 220;
+        }
+        CAROUSEL_STATE.isDragging = false;
+        wrap.classList.remove('is-dragging');
+      };
+
+      wrap.addEventListener('mouseenter', function () { CAROUSEL_STATE.isHover = true; });
+      wrap.addEventListener('mouseleave', function () { CAROUSEL_STATE.isHover = false; end(); });
+
+      wrap.addEventListener('mousedown', function (e) { start(e.clientX); });
+      window.addEventListener('mousemove', function (e) { move(e.clientX); });
+      window.addEventListener('mouseup', end);
+
+      wrap.addEventListener('touchstart', function (e) {
+        if (!e.touches || !e.touches[0]) return;
+        start(e.touches[0].clientX);
+      }, { passive: true });
+      wrap.addEventListener('touchmove', function (e) {
+        if (!e.touches || !e.touches[0]) return;
+        move(e.touches[0].clientX);
+      }, { passive: true });
+      wrap.addEventListener('touchend', end);
+      wrap.addEventListener('touchcancel', end);
+
+      arrencarAutoCarousel();
     }
 
     // ── Caption ──────────────────────────────────────────────────────────────
@@ -535,6 +747,32 @@
       document.getElementById('modal').classList.remove('actiu');
     }
 
+    function aboutModalObert() {
+      const el = document.getElementById('about-modal');
+      return el && el.classList.contains('actiu');
+    }
+
+    function obrirModalArxiu(ev) {
+      if (ev) ev.preventDefault();
+      const el = document.getElementById('about-modal');
+      if (!el) return;
+      el.classList.add('actiu');
+      const btn = el.querySelector('.legal-modal-close');
+      if (btn) setTimeout(function () { btn.focus(); }, 0);
+    }
+
+    function tancarModalArxiu() {
+      const el = document.getElementById('about-modal');
+      if (!el) return;
+      el.classList.remove('actiu');
+      const obrir = document.getElementById('about-open-btn');
+      if (obrir) obrir.focus();
+    }
+
+    function tancarModalArxiuDesDeFons(ev) {
+      if (ev.target === document.getElementById('about-modal')) tancarModalArxiu();
+    }
+
     function legalModalObert() {
       const el = document.getElementById('legal-modal');
       return el && el.classList.contains('actiu');
@@ -576,6 +814,11 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
+      if (aboutModalObert()) {
+        e.preventDefault();
+        tancarModalArxiu();
+        return;
+      }
       if (legalModalObert()) {
         e.preventDefault();
         tancarModalDrets();
@@ -715,6 +958,8 @@
     (function inicialitzarCatalog() {
       requestAnimationFrame(function () {
         aplicarFiltres();
+        renderCarouselAleatori();
+        activarDragCarousel();
 
         (async function sincronitzarDespresDelPrimerRender() {
           try {
@@ -731,6 +976,7 @@
               const rows = Array.isArray(data) ? data : (Array.isArray(data.rows) ? data.rows : []);
               mergeRows(rows);
               aplicarFiltres();
+              renderCarouselAleatori();
             } else {
               console.warn('Google Sheets ha respost amb HTTP ' + res.status + '.');
             }
