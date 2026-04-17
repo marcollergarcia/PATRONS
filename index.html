@@ -384,6 +384,14 @@
     }
     .legal-modal-body li + li { margin-top: 0.4rem; }
     .legal-modal-body a { color: #2c5f7c; text-decoration: underline; }
+    #agriments-modal .agriments-item { margin: 0 0 1em 0; }
+    #agriments-modal .agriments-item:last-child { margin-bottom: 0; }
+    #agriments-modal .agriments-cap { margin: 0; }
+    #agriments-modal .agriments-item p + p { margin-top: 0.3em; }
+    #agriments-modal .agriments-noms {
+      margin: 0;
+      padding-left: 1.15em;
+    }
     .legal-modal-close {
       position: absolute; top: 8px; right: 10px; width: 36px; height: 36px;
       border: none; border-radius: 8px; background: transparent; cursor: pointer;
@@ -617,10 +625,22 @@
       <button type="button" class="legal-modal-close" onclick="tancarModalAgriments()" aria-label="Tancar">×</button>
       <h2 id="agriments-modal-title">Agraïments</h2>
       <div class="legal-modal-body">
-        <p>· <strong>Conservació i documentació del fons:</strong> Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</p>
-        <p>· <strong>Digitalització de patrons:</strong> David Castanyeda</p>
-        <p>· <strong>Base de dades i metadades descriptives:</strong> Paula Mateos, Carles Sansa, Nina Ramon, Martina Sansa, Xènia Escalera, Tere Colomer, Tònia Vila, Montserrat Viader</p>
-        <p>· <strong>Desenvolupament de l'aplicació web i integració de dades:</strong> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</p>
+        <div class="agriments-item">
+          <p class="agriments-cap">· <strong>Conservació i documentació del fons</strong></p>
+          <p class="agriments-noms">Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</p>
+        </div>
+        <div class="agriments-item">
+          <p class="agriments-cap">· <strong>Digitalització de patrons</strong></p>
+          <p class="agriments-noms">David Castanyeda</p>
+        </div>
+        <div class="agriments-item">
+          <p class="agriments-cap">· <strong>Base de dades i metadades descriptives</strong></p>
+          <p class="agriments-noms">Paula Mateos, Carles Sansa, Nina Ramon, Martina Sansa, Xènia Escalera, Tere Colomer, Tònia Vila, Montserrat Viader</p>
+        </div>
+        <div class="agriments-item">
+          <p class="agriments-cap">· <strong>Desenvolupament de l'aplicació web i integració de dades</strong></p>
+          <p class="agriments-noms">Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</p>
+        </div>
       </div>
     </div>
   </div>
