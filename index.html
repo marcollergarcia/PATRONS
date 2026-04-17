@@ -7,9 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Vollkorn+SC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=KoHo:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@160..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Scada:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Teachers:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --font-body:    'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-body:    'SN Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-heading: 'Vollkorn SC', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,7 +31,7 @@
       color: #1d1d1f;
       line-height: 1.47059;
       font-weight: 400;
-      letter-spacing: -0.022em;
+      letter-spacing: -0.015em;
     }
     .container { max-width: 1600px; margin: 0 auto; padding: 20px 20px 48px; }
 
@@ -102,6 +114,8 @@
       padding: 7px 14px; font-size: 12px; cursor: pointer;
       display: flex; align-items: center; gap: 8px;
       transition: all 0.2s; font-family: inherit; color: #1d1d1f;
+      font-weight: 600;
+      letter-spacing: 0.000em;
     }
     .filter-button:hover { border-color: #000000; background: #f5f5f7; }
     .filter-button .arrow { font-size: 10px; transition: transform 0.2s; }
@@ -167,6 +181,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 500;
     }
     /* ── Graella: 3 patrons per fila; paginació 12 files (36 per pàgina) ── */
     .catalog-grid {
@@ -221,7 +236,7 @@
     }
     .card-caption {
       font-size: 11px; color: #1d1d1f; line-height: 1.35;
-      font-weight: 400;
+      font-weight: 600;
     }
     .card-caption .cap-buit {
       color: #aeaeb2; font-style: italic;
@@ -343,7 +358,7 @@
     }
     .legal-modal.actiu { display: flex; }
     .legal-modal-panel {
-      position: relative; max-width: 34rem; width: 100%; max-height: min(85vh, 32rem);
+      position: relative; max-width: 40rem; width: 100%; max-height: min(85vh, 32rem);
       overflow: hidden; display: flex; flex-direction: column;
       background: #fbfbfd; border: 1px solid #d2d2d7; border-radius: 12px;
       box-shadow: 0 12px 40px rgba(0,0,0,0.18);
@@ -380,6 +395,23 @@
     @media (max-width: 900px) {
       .site-footer-grid { grid-template-columns: 1fr; gap: 10px; }
       .site-footer-col.right { text-align: left; }
+    }
+    @media (max-width: 560px) {
+      .filter-menu {
+        left: 0;
+        transform: none;
+        min-width: 0;
+        width: min(92vw, 340px);
+        max-height: 60vh;
+      }
+      .filter-option label {
+        white-space: normal;
+        line-height: 1.35;
+        gap: 8px;
+      }
+      .filter-option .count {
+        flex-shrink: 0;
+      }
     }
     @media (max-width: 720px) {
       .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
@@ -467,7 +499,9 @@
     </div>
     <div class="header-links">
       <button type="button" class="header-link-btn" id="about-open-btn" onclick="obrirModalArxiu(event)">Sobre l'Arxiu</button>
-      <button type="button" class="header-link-btn" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+    <button type="button" class="header-link-btn" id="puntes-open-btn" onclick="obrirModalPuntes(event)">Sobre les Puntes</button>
+      <button type="button" class="header-link-btn" id="legal-open-btn" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+      <button type="button" class="header-link-btn" id="agriments-open-btn" onclick="obrirModalAgriments(event)">Agraïments</button>
       <div class="fav-menu-wrap">
         <button type="button" class="fav-menu-trigger" onclick="toggleMenuFavorits(event)" aria-label="Menú de favorits">⋮</button>
         <div class="fav-menu" id="favMenu">
@@ -489,16 +523,6 @@
   </div>
 
   <footer class="site-footer">
-    <div class="site-footer-grid">
-      <ul class="site-footer-col left">
-        <li>· <span class="rol">Conservació i documentació del fons:</span> Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</li>
-        <li>· <span class="rol">Digitalització de patrons:</span> David Castañeda</li>
-      </ul>
-      <ul class="site-footer-col right">
-        <li>· <span class="rol">Base de dades i metadades descriptives:</span> Paula Mateos, Martina Sansa, Nina Ramon, Carles Sansa, Xènia Escalera</li>
-        <li>· <span class="rol">Desenvolupament de l'aplicació web i integració de dades:</span> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</li>
-      </ul>
-    </div>
     <p class="site-footer-legal"></p>
   </footer>
 
@@ -513,14 +537,13 @@
       <button type="button" class="legal-modal-close" onclick="tancarModalArxiu()" aria-label="Tancar">×</button>
       <h2 id="about-modal-title">Sobre l'Arxiu</h2>
       <div class="legal-modal-body">
-        <p>Aplicació web del <strong>Catàleg de Patrons de Puntes de Coixí</strong>, que dona accés a l’<strong>Arxiu Històric de Patrons de Puntes de Coixí</strong> custodiat per l’<a href="https://www.arenysdemunt.cat/ciutadania/737-entitats" target="_blank" rel="noopener noreferrer"><strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></a>, amb el suport de l’<strong>Ajuntament d’Arenys de Munt</strong> en la digitalització del fons.</p>
-        <p>Aquest arxiu reuneix més de 2.300 patrons de puntes de coixí, i representa un fons viu de la memòria, la cultura i la identitat tèxtil, preservada i oberta a la consulta pública.</p>
+        <p>Aplicació de consulta de l’<strong>Arxiu Històric de Patrons de Puntes de Coixí</strong> custodiat per l’<a href="https://www.arenysdemunt.cat/ciutadania/737-entitats" target="_blank" rel="noopener noreferrer"><strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></a>.</p>
+        <p>Reuneix més de 2.300 patrons de puntes de coixí, i representa un fons viu de la memòria, la cultura i la identitat tèxtil, preservada i oberta a la consulta pública.</p>
 
-        <h3>Què és aquest projecte</h3>
-        <p>Aquesta aplicació conté el desenvolupament de la interfície web i la integració de les dades del catàleg: imatges dels patrons i <strong>metadades descriptives</strong> (tècnica, categoria, any, autor/col·lecció i mida) que permeten <strong>explorar, filtrar i consultar</strong> un fons patrimonial de puntes de coixí de manera estructurada.</p>
+        <p>Integra les imatges dels patrons i <strong>metadades descriptives</strong> (tècnica, categoria, any, autor/col·lecció i mida) i permet <strong>explorar, filtrar i consultar</strong> un fons patrimonial de puntes de coixí de manera estructurada.</p>
         <p>Ofereix <strong>consulta pública</strong> amb la finalitat de <strong>promoure</strong> les puntes de coixí i de <strong>difondre</strong> el seu valor <strong>històric i cultural</strong>, posant el patrimoni documental al servei de la recerca, l’ensenyament i el públic general.</p>
 
-        <h3>Per què és important</h3>
+        <h3>Valors</h3>
         <ul>
           <li><strong>Preservació i visibilitat</strong>: posa en valor un arxiu de patrons que és part del patrimoni immaterial i documental vinculat a la punta de coixí.</li>
           <li><strong>Accés estructurat</strong>: les metadades converteixen una col·lecció en un <strong>recurs consultable i citable</strong> per a estudiants, investigadors, puntaires i entitats culturals.</li>
@@ -530,14 +553,75 @@
     </div>
   </div>
 
+  <div class="legal-modal" id="puntes-modal" role="dialog" aria-modal="true" aria-labelledby="puntes-modal-title" onclick="tancarModalPuntesDesDeFons(event)">
+    <div class="legal-modal-panel" onclick="event.stopPropagation()">
+      <button type="button" class="legal-modal-close" onclick="tancarModalPuntes()" aria-label="Tancar">×</button>
+      <h2 id="puntes-modal-title">Sobre les Puntes</h2>
+      <div class="legal-modal-body">
+        <p>Aquest arxiu digital està dedicat a preservar, estudiar i difondre una de les arts tèxtils més delicades del nostre patrimoni. Cada peça és el resultat d’un coneixement tècnic transmès entre generacions de puntaires.</p>
+        <p>La col·lecció convida a observar com, amb fils de cotó, lli o seda, es construeixen estructures de gran precisió que combinen funció, ornament i memòria cultural.</p>
+
+        <h3>Un recorregut a través del temps</h3>
+        <ul>
+          <li><strong>Orígens i esplendor (s. XVI-XVIII):</strong> de les primeres randes geomètriques a les composicions barroques de gran riquesa decorativa.</li>
+          <li><strong>Industrialització i tradició (s. XIX-XX):</strong> consolidació d’una producció domèstica i artesanal molt viva a Catalunya, amb especial protagonisme del ret-fi i la blonda.</li>
+          <li><strong>Contemporaneïtat (s. XXI):</strong> preservació activa de l’ofici, adaptació a nous contextos i continuïtat de la pràctica puntaire.</li>
+        </ul>
+
+        <h3>Tècniques i combinacions</h3>
+        <p>El catàleg utilitza una nomenclatura que descriu la construcció real de les peces. A més de les tècniques pures, també identifica combinacions històricament freqüents (com GUIPUR+EMPUNTILLATS o BLONDA+GUIPUR), perquè moltes puntes integren més d’un recurs en una mateixa obra.</p>
+        <ul>
+          <li><strong>1. GUIPUR</strong>: encaix de relleu i estructura compacta, sense fons de tul. Els motius (sovint florals o geomètrics) s’uneixen “a l’aire” amb ponts o barretes, generant contrastos molt definits i gran solidesa.</li>
+          <li><strong>2. RET-FI (o Punta d’Arenys)</strong>: tècnica emblemàtica del Maresme, treballada amb fils fins de lli o cotó sobre una xarxa delicada. Combina torçal de perfil i punts específics (com filigrana, esperit o ametlla) per obtenir un resultat subtil, net i lleuger.</li>
+          <li><strong>3. GEOMÈTRIC (o Puntes Numèriques)</strong>: tradició basada en el recompte estricte de fils i passades. Els dibuixos neixen de repeticions matemàtiques (rombes, ziga-zagues, estels), amb una estètica rítmica i una gran precisió tècnica.</li>
+          <li><strong>4. BLONDA</strong>: encaix històric de gran prestigi, especialment vinculat a les mantellines dels segles XVIII i XIX. Es treballa amb seda fina per al fons i seda més gruixuda per als motius, creant brillantor, volum i una caiguda molt elegant.</li>
+          <li><strong>5. EMPUNTILLATS</strong>: acabats en forma de dents o becs que trenquen la línia recta de la randa. Són clau per rematar vores, donar moviment visual i completar estructures de guipur o blonda.</li>
+        </ul>
+
+        <h3>Categories i usos</h3>
+        <p>Per facilitar la consulta, les peces s’organitzen en categories funcionals:</p>
+        <ul>
+          <li><strong>PUNTA TIRADA</strong>: randes elaborades en metratge continu al coixí, pensades per tallar i aplicar posteriorment.</li>
+          <li><strong>MOCADORS</strong>: peces completes, sovint quadrades, on destaca la resolució tècnica de les cantonades.</li>
+          <li><strong>APLICACIONS</strong>: motius o fragments de punta creats per cosir sobre altres teixits decoratius.</li>
+          <li><strong>CANTONERES</strong>: peces amb angle definit (normalment 90 graus) per reforçar i ornamentar cantons.</li>
+          <li><strong>ENTREDÓS</strong>: tires de punta amb dos costats rectes per unir dues peces de roba.</li>
+          <li><strong>FULARS</strong>: peces allargades de coll o espatlles amb presència total o parcial de punta.</li>
+          <li><strong>TAPETS</strong>: peces de sobretaula o mobiliari en formats rodó, ovalat o quadrat.</li>
+          <li><strong>VENTALLS</strong>: puntes semicirculars concebudes per muntar-se sobre l’estructura del ventall.</li>
+          <li><strong>MANTELLINES</strong>: peces clàssiques de gran format d’alt valor tècnic i ornamental.</li>
+          <li><strong>MATRIUS ANTIGUES</strong> o <strong>PUNTS DE LLIBRE</strong>: des de patrons històrics i cartons picats fins a objectes menuts de memòria i ús quotidià.</li>
+        </ul>
+        <p>Aquesta estructura permet explorar tant els usos quotidians com les peces de gala, les aplicacions litúrgiques i els materials de memòria històrica.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="legal-modal" id="legal-modal" role="dialog" aria-modal="true" aria-labelledby="legal-modal-title" onclick="tancarModalDretsDesDeFons(event)">
     <div class="legal-modal-panel" onclick="event.stopPropagation()">
       <button type="button" class="legal-modal-close" onclick="tancarModalDrets()" aria-label="Tancar">×</button>
       <h2 id="legal-modal-title">Reconeixements i autoria</h2>
       <div class="legal-modal-body">
-        <p>Fons patrimonial de l’Associació de Puntaires d’Arenys de Munt (APAM), amb suport de l’Ajuntament d’Arenys de Munt en la digitalització. Consulta pública amb finalitats de promoció de les puntes de coixí i de difusió del seu valor històric i cultural.</p>
-        <p>Sobre l’arxiu i el seu ús: El material (imatges i metadades) és propietat de l’entitat custodiadora; la reutilització ha de citar la font: <strong>«Arxiu Històric de Patrons de Puntes de Coixí — APAM / Ajuntament d’Arenys de Munt»</strong> i, si escau, l’identificador del patró. Per a <strong>ús comercial</strong> o projectes que vagin més enllà de la consulta personal, cal <strong>contactar l’APAM</strong> per autorització prèvia.</p>
-        <p>El fet que els continguts es puguin veure o copiar amb els mitjans habituals del navegador <strong>no significa</strong> que se’n permeti un ús sense respectar aquestes condicions i la normativa vigent en matèria de propietat intel·lectual i drets d’imatge.</p>
+        <p>- Fons patrimonial de l’<strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></p>
+        <p>- Digitalització amb el suport de l’<strong>Ajuntament d’Arenys de Munt</strong></p>
+        <p><u>Sobre l’Arxiu i el seu ús:</u></p>
+        <p>- Consulta pública amb finalitats de promoció de les puntes de coixí i de la difusió del seu valor històric i cultural.</p>
+        <p>- El material (imatges i metadades) és propietat de l’entitat custodiadora; la reutilització ha de citar la font: <strong>«Arxiu Històric de Patrons de Puntes de Coixí — Associació de Puntaires d’Arenys de Munt (APAM)»</strong> i, si escau, l’identificador del patró.</p>
+        <p>- Per a ús comercial o projectes que vagin més enllà de la consulta personal, cal contactar l’<strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong> per autorització prèvia.</p>
+        <p>- El fet que els continguts es puguin veure o copiar amb els mitjans habituals del navegador no significa que se’n permeti un ús sense respectar aquestes condicions i la normativa vigent en matèria de propietat intel·lectual i drets d’imatge.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="legal-modal" id="agriments-modal" role="dialog" aria-modal="true" aria-labelledby="agriments-modal-title" onclick="tancarModalAgrimentsDesDeFons(event)">
+    <div class="legal-modal-panel" onclick="event.stopPropagation()">
+      <button type="button" class="legal-modal-close" onclick="tancarModalAgriments()" aria-label="Tancar">×</button>
+      <h2 id="agriments-modal-title">Agraïments</h2>
+      <div class="legal-modal-body">
+        <p>· <strong>Conservació i documentació del fons:</strong> Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</p>
+        <p>· <strong>Digitalització de patrons:</strong> David Castanyeda</p>
+        <p>· <strong>Base de dades i metadades descriptives:</strong> Paula Mateos, Carles Sansa, Nina Ramon, Martina Sansa, Xènia Escalera, Tere Colomer, Tònia Vila, Montserrat Viader</p>
+        <p>· <strong>Desenvolupament de l'aplicació web i integració de dades:</strong> Marc Oller (<a href="https://x.com/marcollergarcia" target="_blank" rel="noopener noreferrer">@marcollergarcia</a>)</p>
       </div>
     </div>
   </div>
@@ -734,9 +818,13 @@
       const doble = base.concat(base);
       track.innerHTML = doble.map(function (p) {
         const nomSenseExt = (p.nom || '').replace(/\.webp$/i, '');
+        const motiu = String(
+          p.motiu || p.Motiu || p.MOTIU ||
+          p.categoria || p.Categoria || p.CATEGORIA || ''
+        ).trim();
         return '<a class="carousel-item" href="javascript:void(0)" onclick="return onCarouselItemClick(event, \'' + escHtml(p.nom).replace(/'/g, '&#39;') + '\')">' +
           '<img src="' + escHtml(rutaWebp(p.nom)) + '" alt="' + escHtml(nomSenseExt) + '" loading="lazy">' +
-          '<div class="mini-caption">' + escHtml(nomSenseExt) + '</div>' +
+          '<div class="mini-caption">' + escHtml(motiu) + '</div>' +
         '</a>';
       }).join('');
     }
@@ -947,6 +1035,58 @@
       if (ev.target === document.getElementById('about-modal')) tancarModalArxiu();
     }
 
+    function puntesModalObert() {
+      const el = document.getElementById('puntes-modal');
+      return el && el.classList.contains('actiu');
+    }
+
+    function obrirModalPuntes(ev) {
+      if (ev) ev.preventDefault();
+      const el = document.getElementById('puntes-modal');
+      if (!el) return;
+      el.classList.add('actiu');
+      const btn = el.querySelector('.legal-modal-close');
+      if (btn) setTimeout(function () { btn.focus(); }, 0);
+    }
+
+    function tancarModalPuntes() {
+      const el = document.getElementById('puntes-modal');
+      if (!el) return;
+      el.classList.remove('actiu');
+      const obrir = document.getElementById('puntes-open-btn');
+      if (obrir) obrir.focus();
+    }
+
+    function tancarModalPuntesDesDeFons(ev) {
+      if (ev.target === document.getElementById('puntes-modal')) tancarModalPuntes();
+    }
+
+    function agrimentsModalObert() {
+      const el = document.getElementById('agriments-modal');
+      return el && el.classList.contains('actiu');
+    }
+
+    function obrirModalAgriments(ev) {
+      if (ev) ev.preventDefault();
+      const el = document.getElementById('agriments-modal');
+      if (!el) return;
+      el.classList.add('actiu');
+      const btn = el.querySelector('.legal-modal-close');
+      if (btn) setTimeout(function () { btn.focus(); }, 0);
+    }
+
+    function tancarModalAgriments() {
+      const el = document.getElementById('agriments-modal');
+      if (!el) return;
+      el.classList.remove('actiu');
+      const obrir = document.getElementById('agriments-open-btn');
+      if (obrir) obrir.focus();
+    }
+
+    function tancarModalAgrimentsDesDeFons(ev) {
+      if (ev.target === document.getElementById('agriments-modal')) tancarModalAgriments();
+    }
+
     function legalModalObert() {
       const el = document.getElementById('legal-modal');
       return el && el.classList.contains('actiu');
@@ -988,6 +1128,16 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
+      if (agrimentsModalObert()) {
+        e.preventDefault();
+        tancarModalAgriments();
+        return;
+      }
+      if (puntesModalObert()) {
+        e.preventDefault();
+        tancarModalPuntes();
+        return;
+      }
       if (aboutModalObert()) {
         e.preventDefault();
         tancarModalArxiu();
