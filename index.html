@@ -434,17 +434,23 @@
       .header-inner { gap: 6px; }
       .header-title-row h1 {
         font-size: 15px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.2;
       }
-      .header-title-row .header-subtitle { display: none; }
-      .header-controls-row { overflow-x: auto; }
-      .header-controls-row::-webkit-scrollbar { display: none; }
+      .header-title-row .header-subtitle {
+        display: block;
+        font-size: 11px;
+        line-height: 1.25;
+      }
+      .header-controls-row { overflow: visible; }
       .header-filters {
-        flex-wrap: nowrap;
-        width: max-content;
-        padding-bottom: 1px;
+        flex-wrap: wrap;
+        width: 100%;
+        row-gap: 6px;
+        column-gap: 10px;
+        padding-bottom: 0;
       }
       .filter-button { padding: 2px 1px; font-size: 11.5px; }
       .site-footer-legal { line-height: 1.85; }
