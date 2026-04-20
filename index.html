@@ -46,9 +46,13 @@
     }
     .header-inner {
       max-width: 1600px; margin: 0 auto; padding: 10px 20px 8px;
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      display: flex; flex-direction: column; gap: 8px;
     }
-    .header-title-row { text-align: center; width: 100%; }
+    .header-top-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      width: 100%;
+    }
+    .header-title-row { text-align: center; min-width: 0; flex: 1; }
     .header-title-row h1 {
       font-family: var(--font-heading); font-size: 22px; font-weight: 700;
       letter-spacing: 0.02em; color: #1d1d1f; margin: 0; line-height: 1.25;
@@ -56,67 +60,100 @@
     .header-title-row .header-subtitle {
       display: block; font-family: var(--font-heading); font-size: 14px;
       font-weight: 400; letter-spacing: 0.02em; color: #6e6e73;
-      margin: 3px auto 0; line-height: 1.3;
+      margin: 3px 0 0; line-height: 1.3;
     }
     .header-controls-row {
       display: flex; align-items: center; gap: 8px;
-      flex-wrap: wrap; justify-content: center; width: 100%;
+      width: 100%;
+      justify-content: center;
     }
     .header-filters {
-      display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      min-width: 0;
+      justify-content: center;
     }
-    .header-links {
-      position: absolute;
-      top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .header-links-left  { left: 16px; }
-    .header-links-right { right: 16px; }
     .header-link-btn {
-      background: none;
-      border: none;
-      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 6px;
+      padding: 4px 6px;
       font-size: 12px;
-      color: #86868b;
+      color: #6e6e73;
       cursor: pointer;
       font-family: inherit;
       transition: all 0.2s;
+      white-space: nowrap;
     }
-    .header-link-btn:hover { color: #1d1d1f; text-decoration: underline; cursor: pointer; }
-    .fav-menu-wrap { position: relative; }
-    .fav-menu {
-      position: absolute; top: calc(100% + 6px); right: 0;
-      display: none; min-width: 165px; background: #fff;
-      border: 1px solid #d2d2d7; border-radius: 10px;
+    .header-link-btn:hover { color: #1d1d1f; background: #f3f3f5; }
+    .header-link-btn:focus-visible {
+      outline: 2px solid rgba(0,0,0,0.16);
+      outline-offset: 1px;
+    }
+    .settings-wrap { position: relative; flex-shrink: 0; }
+    .settings-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; padding: 0;
+      font-size: 16px; font-weight: 500; color: #55565b;
+    }
+    .settings-menu {
+      position: absolute; top: calc(100% + 8px); right: 0;
+      display: none; min-width: 230px; background: #fff;
+      border: 1px solid #d2d2d7; border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.1); overflow: hidden; z-index: 1200;
     }
-    .fav-menu.open { display: block; }
-    .fav-menu button {
+    .settings-menu.open { display: block; }
+    .settings-menu .settings-group {
+      padding: 8px 0;
+      border-bottom: 1px solid #ededf1;
+    }
+    .settings-menu .settings-group:last-child { border-bottom: none; }
+    .settings-menu .settings-group-title {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #8e8e93;
+      text-transform: uppercase;
+      padding: 0 12px 5px;
+    }
+    .settings-menu button {
       width: 100%; border: none; background: none; text-align: left;
       padding: 9px 12px; font-size: 12px; color: #1d1d1f;
       cursor: pointer; font-family: inherit;
     }
-    .fav-menu button:hover { background: #f5f5f7; }
-    .ordenacio-menu { right: 0; left: auto; min-width: 160px; }
+    .settings-menu button:hover { background: #f5f5f7; }
+    .settings-menu button.is-active { font-weight: 700; }
 
     /* ── Filtres ── */
     .filter-dropdown { position: relative; display: inline-flex; }
     /* Oculta la UI sense treure el DOM ni la lògica JS (revertir: treure la classe als divs). */
     .filter-dropdown.filter-ocult { display: none !important; }
     .filter-button {
-      background: #ffffff; border: 1px solid #d2d2d7; border-radius: 8px;
-      padding: 7px 14px; font-size: 12px; cursor: pointer;
+      background: transparent; border: 0; border-radius: 0;
+      padding: 3px 2px; font-size: 12px; cursor: pointer;
       display: flex; align-items: center; gap: 8px;
-      transition: all 0.2s; font-family: inherit; color: #1d1d1f;
-      font-weight: 600;
-      letter-spacing: 0.000em;
+      transition: color 0.2s, border-color 0.2s;
+      font-family: inherit; color: #6e6e73;
+      font-weight: 500; letter-spacing: 0.01em;
+      border-bottom: 1px solid transparent;
     }
-    .filter-button:hover { border-color: #000000; background: #f5f5f7; }
-    .filter-button .arrow { font-size: 10px; transition: transform 0.2s; }
+    .filter-button:hover { color: #1d1d1f; border-bottom-color: #b8b8bd; }
+    .filter-button:focus-visible {
+      outline: 2px solid rgba(0,0,0,0.16);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .filter-button .arrow {
+      font-size: 9px;
+      color: #8e8e93;
+      transition: transform 0.2s;
+    }
     .filter-button.open .arrow { transform: rotate(180deg); }
-    .filter-button.actiu { border-color: #1d1d1f; background: #1d1d1f; color: #ffffff; }
+    .filter-button.actiu {
+      color: #1d1d1f;
+      font-weight: 600;
+      border-bottom-color: #1d1d1f;
+    }
     .filter-menu {
       position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
       margin-top: 4px; background: #ffffff; border: 1px solid #d2d2d7;
@@ -320,31 +357,14 @@
       max-width: 1600px; margin: 0 auto; padding: 14px 20px 18px;
       border-top: 1px solid #d2d2d7; font-family: var(--font-body); color: #57534e;
     }
-    .site-footer-heading {
-      margin: 0 0 10px;
-      text-align: center;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      color: #424245;
-    }
-    .site-footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-    .site-footer-col { margin: 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 1.45; }
-    .site-footer-col.left { text-align: left; }
-    .site-footer-col.right { text-align: right; }
-    .site-footer-col li + li { margin-top: 4px; }
-    .site-footer-col .rol { font-weight: 700; color: #424245; }
-    .site-footer a { color: #6e6e73; text-decoration: none; }
-    .site-footer a:hover { color: #1d1d1f; text-decoration: underline; }
     .site-footer-legal {
-      margin-top: 14px; padding-top: 12px; border-top: 1px solid #e5e5ea;
-      font-size: 11.5px; line-height: 1.5; color: #6e6e73; text-align: center;
+      font-size: 11.5px; line-height: 1.7; color: #6e6e73; text-align: center;
     }
-    .site-footer-legal .legal-trigger {
-      display: inline; padding: 0; margin: 0 0 0 4px; border: none; background: none;
+    .site-footer-legal .legal-link {
+      display: inline; padding: 0; margin: 0; border: none; background: none;
       font: inherit; color: #424245; text-decoration: underline; cursor: pointer;
     }
-    .site-footer-legal .legal-trigger:hover { color: #1d1d1f; }
+    .site-footer-legal .legal-link:hover { color: #1d1d1f; }
 
     /* ── Modal drets d’ús (sobre el modal d’imatge) ── */
     .legal-modal {
@@ -389,8 +409,9 @@
     .legal-modal-close:hover { background: #e8e8ed; color: #1d1d1f; }
 
     @media (max-width: 900px) {
-      .site-footer-grid { grid-template-columns: 1fr; gap: 10px; }
-      .site-footer-col.right { text-align: left; }
+      .header-title-row h1 { font-size: 19px; }
+      .header-title-row .header-subtitle { font-size: 12px; }
+      .header-filters { gap: 6px; }
     }
     @media (max-width: 560px) {
       .filter-menu {
@@ -408,6 +429,30 @@
       .filter-option .count {
         flex-shrink: 0;
       }
+    }
+    @media (max-width: 720px) {
+      .header-inner { gap: 6px; }
+      .header-title-row h1 {
+        font-size: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .header-title-row .header-subtitle { display: none; }
+      .header-controls-row { overflow-x: auto; }
+      .header-controls-row::-webkit-scrollbar { display: none; }
+      .header-filters {
+        flex-wrap: nowrap;
+        width: max-content;
+        padding-bottom: 1px;
+      }
+      .filter-button { padding: 2px 1px; font-size: 11.5px; }
+      .site-footer-legal { line-height: 1.85; }
+    }
+    @media (max-width: 560px) {
+      .header-inner { padding: 8px 12px 7px; }
+      .header-top-row { gap: 8px; }
+      .settings-btn { width: 28px; height: 28px; font-size: 15px; }
     }
     @media (max-width: 720px) {
       .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
@@ -436,9 +481,30 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <div class="header-title-row">
-        <h1>ARXIU HISTÒRIC DE PATRONS DE PUNTES DE COIXÍ</h1>
-        <span class="header-subtitle">ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT</span>
+      <div class="header-top-row">
+        <div class="header-title-row">
+          <span class="header-subtitle">ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT</span>
+          <h1>ARXIU HISTÒRIC DE PATRONS DE PUNTES DE COIXÍ</h1>
+        </div>
+        <div class="settings-wrap">
+          <button type="button" class="header-link-btn settings-btn" onclick="toggleMenuConfiguracio(event)" aria-label="Obrir configuració">
+            ⚙
+          </button>
+          <div class="settings-menu" id="settingsMenu">
+            <div class="settings-group">
+              <span class="settings-group-title">Favorits</span>
+              <button type="button" onclick="exportarFavorits(); tancarMenuConfiguracio();">Exportar favorits</button>
+              <button type="button" onclick="importarFavorits(); tancarMenuConfiguracio();">Importar favorits</button>
+            </div>
+            <div class="settings-group">
+              <span class="settings-group-title">Presentació de resultats</span>
+              <button type="button" id="ord-opt-aleatori" onclick="selOrdre('aleatori'); tancarMenuConfiguracio();">✓ Aleatori</button>
+              <button type="button" id="ord-opt-correlatiu" onclick="selOrdre('correlatiu'); tancarMenuConfiguracio();">Correlatiu</button>
+              <button type="button" id="ord-opt-tecniques" onclick="selOrdre('tecniques'); tancarMenuConfiguracio();">Tècniques</button>
+              <button type="button" id="ord-opt-categories" onclick="selOrdre('categories'); tancarMenuConfiguracio();">Categories</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="header-controls-row">
         <div class="header-filters">
@@ -493,30 +559,6 @@
         </div>
       </div>
     </div>
-    <div class="header-links header-links-left">
-      <button type="button" class="header-link-btn" id="about-open-btn" onclick="obrirModalArxiu(event)">Sobre l'Arxiu</button>
-      <button type="button" class="header-link-btn" id="legal-open-btn" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
-    </div>
-    <div class="header-links header-links-right">
-      <div class="filter-dropdown" id="ordenacio-dd">
-        <button class="header-link-btn" id="filterButton_ordenacio" onclick="toggleDD_ordenacio(event)">
-          <span id="filter-text_ordenacio">Aleatori</span> ▼
-        </button>
-        <div class="filter-menu ordenacio-menu" id="filterMenu_ordenacio">
-          <div class="filter-option" id="ord-opt-aleatori" onclick="selOrdre('aleatori')"><label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">✓ Aleatori</label></div>
-          <div class="filter-option" id="ord-opt-correlatiu" onclick="selOrdre('correlatiu')"><label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">Correlatiu</label></div>
-          <div class="filter-option" id="ord-opt-tecniques" onclick="selOrdre('tecniques')"><label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">Tècniques</label></div>
-          <div class="filter-option" id="ord-opt-categories" onclick="selOrdre('categories')"><label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">Categories</label></div>
-        </div>
-      </div>
-      <div class="fav-menu-wrap">
-        <button type="button" class="header-link-btn" onclick="toggleMenuFavorits(event)" aria-label="Menú de favorits">Favorits ▼</button>
-        <div class="fav-menu" id="favMenu">
-          <button type="button" onclick="exportarFavorits(); tancarMenuFavorits();">Exportar favorits</button>
-          <button type="button" onclick="importarFavorits(); tancarMenuFavorits();">Importar favorits</button>
-        </div>
-      </div>
-    </div>
   </header>
 
   <div class="container">
@@ -530,7 +572,13 @@
   </div>
 
   <footer class="site-footer">
-    <p class="site-footer-legal"></p>
+    <p class="site-footer-legal">
+      · Fons patrimonial de l'Associació de Puntaires d'Arenys de Munt (APAM)
+      · Digitalització amb el suport de l'Ajuntament d'Arenys de Munt
+      · <button type="button" class="legal-link" id="about-footer-link" onclick="obrirModalArxiu(event)">Sobre l'Arxiu i les Puntes</button>
+      · <button type="button" class="legal-link" id="legal-footer-link" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+      · <button type="button" class="legal-link" id="agriments-footer-link" onclick="obrirModalAgriments(event)">Agraïments</button>
+    </p>
   </footer>
 
   <div class="modal" id="modal" onclick="tancarModal()">
@@ -591,14 +639,19 @@
       <button type="button" class="legal-modal-close" onclick="tancarModalDrets()" aria-label="Tancar">×</button>
       <h2 id="legal-modal-title">Reconeixements i autoria</h2>
       <div class="legal-modal-body">
-        <p>· Fons patrimonial de l'<strong>Associació de Puntaires d'Arenys de Munt (APAM)</strong></p>
-        <p>· Digitalització amb el suport de l'<strong>Ajuntament d'Arenys de Munt</strong></p>
+        <p>Consulta pública amb finalitats de promoció de les puntes de coixí i de la difusió del seu valor històric i cultural.</p>
+        <p>El material (imatges i metadades) és propietat de l'entitat custodiadora; la reutilització ha de citar la font: <strong>«Arxiu Històric de Patrons de Puntes de Coixí — Associació de Puntaires d'Arenys de Munt (APAM)»</strong> i, si escau, l'identificador del patró.</p>
+        <p>Per a ús comercial o projectes que vagin més enllà de la consulta personal, cal contactar l'<strong>Associació de Puntaires d'Arenys de Munt (APAM)</strong> per autorització prèvia.</p>
+        <p>El fet que els continguts es puguin veure o copiar amb els mitjans habituals del navegador no significa que se'n permeti un ús sense respectar aquestes condicions i la normativa vigent en matèria de propietat intel·lectual i drets d'imatge.</p>
 
-        <h3>Sobre l'Arxiu i el seu ús</h3>
-        <p>Consulta pública amb finalitats de promoció de les puntes de coixí i de la difusió del seu valor històric i cultural. El material (imatges i metadades) és propietat de l'entitat custodiadora; la reutilització ha de citar la font: <strong>«Arxiu Històric de Patrons de Puntes de Coixí — Associació de Puntaires d'Arenys de Munt (APAM)»</strong> i, si escau, l'identificador del patró.</p>
-        <p>Per a ús comercial o projectes que vagin més enllà de la consulta personal, cal contactar l'<strong>Associació de Puntaires d'Arenys de Munt (APAM)</strong> per autorització prèvia. El fet que els continguts es puguin veure o copiar amb els mitjans habituals del navegador no significa que se'n permeti un ús sense respectar aquestes condicions i la normativa vigent en matèria de propietat intel·lectual i drets d'imatge.</p>
-
-        <h3>Agraïments</h3>
+      </div>
+    </div>
+  </div>
+  <div class="legal-modal" id="agriments-modal" role="dialog" aria-modal="true" aria-labelledby="agriments-modal-title" onclick="tancarModalAgrimentsDesDeFons(event)">
+    <div class="legal-modal-panel" onclick="event.stopPropagation()">
+      <button type="button" class="legal-modal-close" onclick="tancarModalAgriments()" aria-label="Tancar">×</button>
+      <h2 id="agriments-modal-title">Agraïments</h2>
+      <div class="legal-modal-body">
         <p>· <strong>Conservació i documentació del fons:</strong> Montse Casademunt, Mª Dolors Garcia, Carme Bigorra, Maria Closa</p>
         <p>· <strong>Digitalització de patrons:</strong> David Castanyeda</p>
         <p>· <strong>Base de dades i metadades descriptives:</strong> Paula Mateos, Carles Sansa, Nina Ramon, Martina Sansa, Xènia Escalera, Tere Colomer, Tònia Vila</p>
@@ -639,25 +692,16 @@
       return arr;
     }
 
-    function toggleDD_ordenacio(ev) {
-      if (ev) ev.stopPropagation();
-      const menu = document.getElementById('filterMenu_ordenacio');
-      const isOpen = menu && menu.classList.contains('open');
-      document.querySelectorAll('.filter-menu').forEach(m => m.classList.remove('open'));
-      if (!isOpen && menu) { menu.classList.add('open'); }
-    }
-
     function selOrdre(mode) {
       ordreActual = mode;
       const etiquetes = { aleatori: 'Aleatori', correlatiu: 'Correlatiu', tecniques: 'Tècniques', categories: 'Categories' };
-      const textEl = document.getElementById('filter-text_ordenacio');
-      if (textEl) textEl.textContent = etiquetes[mode] || mode.toUpperCase();
       ['aleatori','correlatiu','tecniques','categories'].forEach(m => {
         const el = document.getElementById('ord-opt-' + m);
-        if (el) el.querySelector('label').textContent = (m === mode ? '✓ ' : '') + (etiquetes[m] || m);
+        if (el) {
+          el.textContent = (m === mode ? '✓ ' : '') + (etiquetes[m] || m);
+          el.classList.toggle('is-active', m === mode);
+        }
       });
-      const menu = document.getElementById('filterMenu_ordenacio');
-      if (menu) menu.classList.remove('open');
       aplicarFiltres();
     }
 
@@ -688,13 +732,24 @@
       return !!favorits[String(nom || '')];
     }
 
+    function actualitzarCorsFavorits(nom) {
+      const k = String(nom || '');
+      const actiu = esFavorit(k);
+      document.querySelectorAll('.fav-heart').forEach(function (btn) {
+        if ((btn.dataset && btn.dataset.nom) !== k) return;
+        btn.classList.toggle('active', actiu);
+        btn.setAttribute('aria-label', actiu ? 'Treure de favorits' : 'Afegir a favorits');
+      });
+    }
+
     function toggleFavorit(nom) {
       const k = String(nom || '');
       if (!k) return;
       if (favorits[k]) delete favorits[k];
       else favorits[k] = 1;
       guardarFavorits();
-      aplicarFiltres(false);
+      actualitzarCorsFavorits(k);
+      if (filtreFavoritsActiu) aplicarFiltres(false);
     }
 
     function actualitzarBotoFavoritModal() {
@@ -765,13 +820,13 @@
       input.click();
     }
 
-    function toggleMenuFavorits(ev) {
+    function toggleMenuConfiguracio(ev) {
       if (ev) ev.stopPropagation();
-      document.getElementById('favMenu')?.classList.toggle('open');
+      document.getElementById('settingsMenu')?.classList.toggle('open');
     }
 
-    function tancarMenuFavorits() {
-      document.getElementById('favMenu')?.classList.remove('open');
+    function tancarMenuConfiguracio() {
+      document.getElementById('settingsMenu')?.classList.remove('open');
     }
 
     // ── Utilitats ────────────────────────────────────────────────────────────
@@ -934,7 +989,7 @@
       }
       return `<div class="card${teDades ? ' amb-dades' : ''}" onclick="mostrarModal('${escHtml(p.nom)}')">
         <div class="card-thumb-wrap">
-          <button type="button" class="fav-heart${esFavorit(p.nom) ? ' active' : ''}" onclick="event.stopPropagation(); toggleFavorit('${escHtml(p.nom)}')" aria-label="${esFavorit(p.nom) ? 'Treure de favorits' : 'Afegir a favorits'}">♥</button>
+          <button type="button" class="fav-heart${esFavorit(p.nom) ? ' active' : ''}" data-nom="${escHtml(p.nom)}" onclick="event.stopPropagation(); toggleFavorit('${escHtml(p.nom)}')" aria-label="${esFavorit(p.nom) ? 'Treure de favorits' : 'Afegir a favorits'}">♥</button>
           <img src="${escHtml(rutaWebp(p.nom))}" alt="${escHtml(nomSenseExt)}" loading="lazy">
         </div>
         <div class="card-peu">
@@ -1043,7 +1098,7 @@
       const el = document.getElementById('about-modal');
       if (!el) return;
       el.classList.remove('actiu');
-      const obrir = document.getElementById('about-open-btn');
+      const obrir = document.getElementById('about-footer-link');
       if (obrir) obrir.focus();
     }
 
@@ -1075,7 +1130,7 @@
       if (location.hash === '#drets') {
         history.replaceState(null, '', location.pathname + location.search);
       }
-      const obrir = document.getElementById('legal-open-btn');
+      const obrir = document.getElementById('legal-footer-link');
       if (obrir) obrir.focus();
     }
 
@@ -1090,6 +1145,32 @@
       else el.classList.remove('actiu');
     });
 
+    function agrimentsModalObert() {
+      const el = document.getElementById('agriments-modal');
+      return el && el.classList.contains('actiu');
+    }
+
+    function obrirModalAgriments(ev) {
+      if (ev) ev.preventDefault();
+      const el = document.getElementById('agriments-modal');
+      if (!el) return;
+      el.classList.add('actiu');
+      const btn = el.querySelector('.legal-modal-close');
+      if (btn) setTimeout(function () { btn.focus(); }, 0);
+    }
+
+    function tancarModalAgriments() {
+      const el = document.getElementById('agriments-modal');
+      if (!el) return;
+      el.classList.remove('actiu');
+      const obrir = document.getElementById('agriments-footer-link');
+      if (obrir) obrir.focus();
+    }
+
+    function tancarModalAgrimentsDesDeFons(ev) {
+      if (ev.target === document.getElementById('agriments-modal')) tancarModalAgriments();
+    }
+
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
       if (aboutModalObert()) {
@@ -1100,6 +1181,11 @@
       if (legalModalObert()) {
         e.preventDefault();
         tancarModalDrets();
+        return;
+      }
+      if (agrimentsModalObert()) {
+        e.preventDefault();
+        tancarModalAgriments();
         return;
       }
       tancarModal();
@@ -1226,7 +1312,7 @@
           dd.querySelector('.filter-button')?.classList.remove('open');
         }
       });
-      if (!e.target.closest('.fav-menu-wrap')) tancarMenuFavorits();
+      if (!e.target.closest('.settings-wrap')) tancarMenuConfiguracio();
     });
 
     // ── Merge de dades de Google Sheets ──────────────────────────────────────
