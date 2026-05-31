@@ -67,6 +67,27 @@
       width: 100%;
       justify-content: center;
     }
+    .header-legal {
+      width: 100%;
+      margin: 0;
+      padding: 0 4px 4px;
+      font-size: 11.5px;
+      line-height: 1.7;
+      color: #6e6e73;
+      text-align: center;
+    }
+    .header-legal .legal-link {
+      display: inline;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: none;
+      font: inherit;
+      color: #424245;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .header-legal .legal-link:hover { color: #1d1d1f; }
     .header-filters {
       display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
       min-width: 0;
@@ -353,20 +374,6 @@
     }
     .modal-peu .modal-num { font-size: 11px; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
 
-    /* ── Footer ── */
-    .site-footer {
-      max-width: 1600px; margin: 0 auto; padding: 14px 20px 18px;
-      border-top: 1px solid #d2d2d7; font-family: var(--font-body); color: #57534e;
-    }
-    .site-footer-legal {
-      font-size: 11.5px; line-height: 1.7; color: #6e6e73; text-align: center;
-    }
-    .site-footer-legal .legal-link {
-      display: inline; padding: 0; margin: 0; border: none; background: none;
-      font: inherit; color: #424245; text-decoration: underline; cursor: pointer;
-    }
-    .site-footer-legal .legal-link:hover { color: #1d1d1f; }
-
     /* ── Modal drets d’ús (sobre el modal d’imatge) ── */
     .legal-modal {
       display: none; position: fixed; z-index: 3000; inset: 0;
@@ -454,7 +461,7 @@
         padding-bottom: 0;
       }
       .filter-button { padding: 2px 1px; font-size: 11.5px; }
-      .site-footer-legal { line-height: 1.85; }
+      .header-legal { line-height: 1.85; }
     }
     @media (max-width: 560px) {
       .header-inner { padding: 8px 12px 7px; }
@@ -502,13 +509,18 @@
               <span class="settings-group-title">Presentació de resultats</span>
               <button type="button" id="ord-opt-aleatori" onclick="selOrdre('aleatori'); tancarMenuConfiguracio();">✓ Aleatori</button>
               <button type="button" id="ord-opt-correlatiu" onclick="selOrdre('correlatiu'); tancarMenuConfiguracio();">Correlatiu</button>
-              <button type="button" id="ord-opt-tecniques" onclick="selOrdre('tecniques'); tancarMenuConfiguracio();">Tècniques</button>
-              <button type="button" id="ord-opt-categories" onclick="selOrdre('categories'); tancarMenuConfiguracio();">Categories</button>
               <button type="button" id="ord-opt-mesvotats" onclick="selOrdre('mesvotats'); tancarMenuConfiguracio();">Més votats</button>
             </div>
           </div>
         </div>
       </div>
+      <p class="header-legal">
+        · Fons patrimonial de l'Associació de Puntaires d'Arenys de Munt (APAM)
+        · Digitalització amb el suport de l'Ajuntament d'Arenys de Munt
+        · <button type="button" class="legal-link" id="about-footer-link" onclick="obrirModalArxiu(event)">Sobre l'Arxiu i les Puntes</button>
+        · <button type="button" class="legal-link" id="legal-footer-link" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+        · <button type="button" class="legal-link" id="agriments-footer-link" onclick="obrirModalAgriments(event)">Agraïments</button>
+      </p>
       <div class="header-controls-row">
         <div class="header-filters">
 
@@ -548,17 +560,6 @@
             </div>
           </div>
 
-          <div class="filter-dropdown">
-            <button class="filter-button" id="filterButton_autor" onclick="toggleDD('autor')">
-              <span id="filter-text_autor">AUTOR/COL·LECCIÓ</span><span class="arrow">▼</span>
-            </button>
-            <div class="filter-menu" id="filterMenu_autor">
-              <div id="filterOptions_autor"></div>
-            </div>
-          </div>
-
-
-
         </div>
       </div>
     </div>
@@ -573,16 +574,6 @@
     <div class="catalog-grid" id="grid"></div>
     <div class="paginacio" id="paginacio"></div>
   </div>
-
-  <footer class="site-footer">
-    <p class="site-footer-legal">
-      · Fons patrimonial de l'Associació de Puntaires d'Arenys de Munt (APAM)
-      · Digitalització amb el suport de l'Ajuntament d'Arenys de Munt
-      · <button type="button" class="legal-link" id="about-footer-link" onclick="obrirModalArxiu(event)">Sobre l'Arxiu i les Puntes</button>
-      · <button type="button" class="legal-link" id="legal-footer-link" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
-      · <button type="button" class="legal-link" id="agriments-footer-link" onclick="obrirModalAgriments(event)">Agraïments</button>
-    </p>
-  </footer>
 
   <div class="modal" id="modal" onclick="tancarModal()">
     <button type="button" id="modalVotBtn" class="modal-vot-btn" onclick="event.stopPropagation(); toggleVot(modalNomActual); actualitzarModalVotBtn();" aria-label="Votar"><span class="modal-vot-heart">♡</span><span class="modal-vot-count"></span></button>
@@ -683,11 +674,6 @@
     let modalNomActual = '';
     let ordreActual = 'aleatori';
 
-    const ORDRE_TECNIQUES = [
-      'BLONDA','BLONDA+EMPUNTILLATS','BLONDA+GUIPUR','BLONDA+GUIPUR+EMPUNTILLATS',
-      'EMPUNTILLATS','ENTRENATS+EMPUNTILLATS','GEOMÈTRIC','GUIPUR','GUIPUR+EMPUNTILLATS','RET-FI'
-    ];
-
     function barrejar(arr) {
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -698,8 +684,8 @@
 
     function selOrdre(mode) {
       ordreActual = mode;
-      const etiquetes = { aleatori: 'Aleatori', correlatiu: 'Correlatiu', tecniques: 'Tècniques', categories: 'Categories', mesvotats: 'Més votats' };
-      ['aleatori','correlatiu','tecniques','categories','mesvotats'].forEach(m => {
+      const etiquetes = { aleatori: 'Aleatori', correlatiu: 'Correlatiu', mesvotats: 'Més votats' };
+      ['aleatori','correlatiu','mesvotats'].forEach(m => {
         const el = document.getElementById('ord-opt-' + m);
         if (el) {
           el.textContent = (m === mode ? '✓ ' : '') + (etiquetes[m] || m);
@@ -714,7 +700,6 @@
       motiu:   { actiu: 'TOTS', titolBreu: 'MOTIU',         etiqueta: 'Totes les categories',          textBuit: 'Sense categoria' },
       mida:    { actiu: 'TOTS', titolBreu: 'MIDA',          etiqueta: 'Totes les mides',          textBuit: 'Sense mida' },
       any:     { actiu: 'TOTS', titolBreu: 'ANY',           etiqueta: 'Tots els anys',            textBuit: 'Sense any / Desconegut' },
-      autor:   { actiu: 'TOTS', titolBreu: 'AUTOR/COL·LECCIÓ', etiqueta: 'Tots els autors',       textBuit: 'Sense autor' },
     };
 
     function carregarVotsLocals() {
@@ -1168,28 +1153,12 @@
           if (actiu === 'SENSE') return esSenseOMDesconegut(p[camp], camp);
           return (p[camp] || '').trim() === actiu;
         };
-        return campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any') && campOk('autor');
+        return campOk('tecnica') && campOk('motiu') && campOk('mida') && campOk('any');
       });
       if (ordreActual === 'aleatori') {
         barrejar(FILTRATS);
       } else if (ordreActual === 'correlatiu') {
         FILTRATS.sort((a, b) => a.nom.localeCompare(b.nom));
-      } else if (ordreActual === 'tecniques') {
-        FILTRATS.sort((a, b) => {
-          const idxA = ORDRE_TECNIQUES.indexOf((a.tecnica||'').trim());
-          const idxB = ORDRE_TECNIQUES.indexOf((b.tecnica||'').trim());
-          const ra = idxA === -1 ? 9999 : idxA;
-          const rb = idxB === -1 ? 9999 : idxB;
-          if (ra !== rb) return ra - rb;
-          return a.nom.localeCompare(b.nom);
-        });
-      } else if (ordreActual === 'categories') {
-        FILTRATS.sort((a, b) => {
-          const ma = (a.motiu || '').trim() || '￿';
-          const mb = (b.motiu || '').trim() || '￿';
-          if (ma !== mb) return ma.localeCompare(mb);
-          return a.nom.localeCompare(b.nom);
-        });
       } else if (ordreActual === 'mesvotats') {
         FILTRATS.sort((a, b) => {
           const va = VOTS[a.nom] || 0;
