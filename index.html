@@ -21,7 +21,7 @@
 
   <style>
     :root {
-      --font-body:    'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-body:    'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-heading: 'Vollkorn SC', sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,40 +110,6 @@
       outline: 2px solid rgba(0,0,0,0.16);
       outline-offset: 1px;
     }
-    .settings-wrap { position: relative; flex-shrink: 0; }
-    .settings-btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; padding: 0;
-      font-size: 16px; font-weight: 500; color: #55565b;
-    }
-    .settings-menu {
-      position: absolute; top: calc(100% + 8px); right: 0;
-      display: none; min-width: 230px; background: #fff;
-      border: 1px solid #d2d2d7; border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.1); overflow: hidden; z-index: 1200;
-    }
-    .settings-menu.open { display: block; }
-    .settings-menu .settings-group {
-      padding: 8px 0;
-      border-bottom: 1px solid #ededf1;
-    }
-    .settings-menu .settings-group:last-child { border-bottom: none; }
-    .settings-menu .settings-group-title {
-      display: block;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #8e8e93;
-      text-transform: uppercase;
-      padding: 0 12px 5px;
-    }
-    .settings-menu button {
-      width: 100%; border: none; background: none; text-align: left;
-      padding: 9px 12px; font-size: 12px; color: #1d1d1f;
-      cursor: pointer; font-family: inherit;
-    }
-    .settings-menu button:hover { background: #f5f5f7; }
-    .settings-menu button.is-active { font-weight: 700; }
 
     /* ── Filtres ── */
     .filter-dropdown { position: relative; display: inline-flex; }
@@ -465,8 +431,6 @@
     }
     @media (max-width: 560px) {
       .header-inner { padding: 8px 12px 7px; }
-      .header-top-row { gap: 8px; }
-      .settings-btn { width: 28px; height: 28px; font-size: 15px; }
     }
     @media (max-width: 720px) {
       .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; }
@@ -495,32 +459,17 @@
 
   <header class="site-header">
     <div class="header-inner">
+      <p class="header-legal">
+        <button type="button" class="legal-link" id="about-footer-link" onclick="obrirModalArxiu(event)">Sobre l'Arxiu i les Puntes</button>
+        · <button type="button" class="legal-link" id="legal-footer-link" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
+        · <button type="button" class="legal-link" id="agriments-footer-link" onclick="obrirModalAgriments(event)">Agraïments</button>
+      </p>
       <div class="header-top-row">
         <div class="header-title-row">
           <span class="header-subtitle">ASSOCIACIÓ DE PUNTAIRES D'ARENYS DE MUNT</span>
           <h1>ARXIU HISTÒRIC DE PATRONS DE PUNTES AL COIXÍ</h1>
         </div>
-        <div class="settings-wrap">
-          <button type="button" class="header-link-btn settings-btn" onclick="toggleMenuConfiguracio(event)" aria-label="Obrir configuració">
-            ⚙
-          </button>
-          <div class="settings-menu" id="settingsMenu">
-            <div class="settings-group">
-              <span class="settings-group-title">Presentació de resultats</span>
-              <button type="button" id="ord-opt-aleatori" onclick="selOrdre('aleatori'); tancarMenuConfiguracio();">✓ Aleatori</button>
-              <button type="button" id="ord-opt-correlatiu" onclick="selOrdre('correlatiu'); tancarMenuConfiguracio();">Correlatiu</button>
-              <button type="button" id="ord-opt-mesvotats" onclick="selOrdre('mesvotats'); tancarMenuConfiguracio();">Més votats</button>
-            </div>
-          </div>
-        </div>
       </div>
-      <p class="header-legal">
-        · Fons patrimonial de l'Associació de Puntaires d'Arenys de Munt (APAM)
-        · Digitalització amb el suport de l'Ajuntament d'Arenys de Munt
-        · <button type="button" class="legal-link" id="about-footer-link" onclick="obrirModalArxiu(event)">Sobre l'Arxiu i les Puntes</button>
-        · <button type="button" class="legal-link" id="legal-footer-link" onclick="obrirModalDrets(event)">Reconeixements i autoria</button>
-        · <button type="button" class="legal-link" id="agriments-footer-link" onclick="obrirModalAgriments(event)">Agraïments</button>
-      </p>
       <div class="header-controls-row">
         <div class="header-filters">
 
@@ -539,6 +488,20 @@
             </button>
             <div class="filter-menu" id="filterMenu_motiu">
               <div id="filterOptions_motiu"></div>
+            </div>
+          </div>
+
+          <div class="filter-dropdown">
+            <button class="filter-button" id="filterButton_mostrar" onclick="toggleDD_mostrar(event)">
+              <span id="filter-text_mostrar">MOSTRAR</span><span class="arrow">▼</span>
+            </button>
+            <div class="filter-menu" id="filterMenu_mostrar">
+              <div class="filter-option" id="ord-opt-correlatiu" onclick="selOrdre('correlatiu')">
+                <label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">Correlatiu</label>
+              </div>
+              <div class="filter-option" id="ord-opt-mesvotats" onclick="selOrdre('mesvotats')">
+                <label style="cursor:pointer;font-size:12px;display:flex;align-items:center;gap:6px">Més votats</label>
+              </div>
             </div>
           </div>
 
@@ -586,7 +549,8 @@
       <button type="button" class="legal-modal-close" onclick="tancarModalArxiu()" aria-label="Tancar">×</button>
       <h2 id="about-modal-title">Sobre l'Arxiu i les Puntes</h2>
       <div class="legal-modal-body">
-        <p>Aplicació de consulta de l’<strong>Arxiu Històric de Patrons de Puntes de Coixí</strong> custodiat per l’<a href="https://www.arenysdemunt.cat/ciutadania/737-entitats" target="_blank" rel="noopener noreferrer"><strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></a>.</p>
+        <p>Fons patrimonial de l'Associació de Puntaires d'Arenys de Munt (APAM) · Digitalització amb el suport de l'Ajuntament d'Arenys de Munt</p>
+        <p>Aplicació de consulta de l’<strong>Arxiu Històric de Patrons de Puntes de Coixí</strong> custodiat per l’<a href="https://www.puntairesdarenysdemunt.com/" target="_blank" rel="noopener noreferrer"><strong>Associació de Puntaires d’Arenys de Munt (APAM)</strong></a>.</p>
         <p>Reuneix més de 2.300 patrons de puntes de coixí, i representa un fons viu de la memòria, la cultura i la identitat tèxtil, preservada i oberta a la consulta pública.</p>
 
         <p>Integra les imatges dels patrons i <strong>metadades descriptives</strong> (tècnica, categoria, any, autor/col·lecció i mida) i permet <strong>explorar, filtrar i consultar</strong> un fons patrimonial de puntes de coixí de manera estructurada.</p>
@@ -684,15 +648,42 @@
 
     function selOrdre(mode) {
       ordreActual = mode;
-      const etiquetes = { aleatori: 'Aleatori', correlatiu: 'Correlatiu', mesvotats: 'Més votats' };
-      ['aleatori','correlatiu','mesvotats'].forEach(m => {
+      const etiquetes = { correlatiu: 'Correlatiu', mesvotats: 'Més votats' };
+      ['correlatiu', 'mesvotats'].forEach(function (m) {
         const el = document.getElementById('ord-opt-' + m);
         if (el) {
-          el.textContent = (m === mode ? '✓ ' : '') + (etiquetes[m] || m);
-          el.classList.toggle('is-active', m === mode);
+          const label = el.querySelector('label');
+          if (label) label.textContent = (m === mode ? '\u2713 ' : '') + (etiquetes[m] || m);
         }
       });
+      const textEl = document.getElementById('filter-text_mostrar');
+      const btn = document.getElementById('filterButton_mostrar');
+      if (textEl && btn) {
+        if (mode === 'aleatori') {
+          textEl.textContent = 'MOSTRAR';
+          btn.classList.remove('actiu');
+        } else {
+          textEl.textContent = (etiquetes[mode] || mode).toUpperCase();
+          btn.classList.add('actiu');
+        }
+        btn.classList.remove('open');
+      }
+      const menu = document.getElementById('filterMenu_mostrar');
+      if (menu) menu.classList.remove('open');
       aplicarFiltres();
+    }
+
+    function toggleDD_mostrar(ev) {
+      if (ev) ev.stopPropagation();
+      const menu = document.getElementById('filterMenu_mostrar');
+      const btn  = document.getElementById('filterButton_mostrar');
+      const isOpen = menu && menu.classList.contains('open');
+      document.querySelectorAll('.filter-menu').forEach(function (m) { m.classList.remove('open'); });
+      document.querySelectorAll('.filter-button').forEach(function (b) { b.classList.remove('open'); });
+      if (!isOpen && menu && btn) {
+        menu.classList.add('open');
+        btn.classList.add('open');
+      }
     }
 
     const filtresCamps = {
@@ -751,15 +742,6 @@
       fetch(url, { cache: 'no-store' }).catch(function (err) {
         console.warn('Error enviant vot:', err);
       });
-    }
-
-    function toggleMenuConfiguracio(ev) {
-      if (ev) ev.stopPropagation();
-      document.getElementById('settingsMenu')?.classList.toggle('open');
-    }
-
-    function tancarMenuConfiguracio() {
-      document.getElementById('settingsMenu')?.classList.remove('open');
     }
 
     // ── Utilitats ────────────────────────────────────────────────────────────
@@ -1250,7 +1232,6 @@
           dd.querySelector('.filter-button')?.classList.remove('open');
         }
       });
-      if (!e.target.closest('.settings-wrap')) tancarMenuConfiguracio();
     });
 
     // ── Merge de dades de Google Sheets ──────────────────────────────────────
